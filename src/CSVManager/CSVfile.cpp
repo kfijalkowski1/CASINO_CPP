@@ -1,3 +1,6 @@
+/*
+
+
 #include "CSVfile.h"
 
 template <typename RowType>
@@ -74,7 +77,7 @@ std::vector<std::string> RowType::toStrings()
     }
     return rowData;
 }
-/*
+
 std::fstream file;
     file.open(path, std::ios::in);
     std::string line, header, word;
