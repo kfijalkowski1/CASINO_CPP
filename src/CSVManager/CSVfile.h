@@ -9,12 +9,12 @@
 // records in rows
 // values of records separated by separator
 
-template <typename RowType>
+template <class RowType>
 class CSVfile
 {
 private:
     std::string path;
-    char separator = ',';
+    //    char separator = ','; // TODO: why seperator here if not used in this class
     std::vector<std::string> fieldNames;
     std::vector<RowType> rows;
 
@@ -77,7 +77,7 @@ class RowType
 private:
     std::string content;
     const static std::vector<std::string> fieldNames;
-    char separator = ',';
+    // char separator = ',';
 
 public:
     static void validateFN();
