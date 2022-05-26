@@ -27,7 +27,7 @@ enable_testing()
 # macro to find subdirectories
 # https://stackoverflow.com/a/7788165
 MACRO(SUBDIRLIST result curdir)
-    FILE(GLOB children CONFIGURE_DEPENDS ${curdir}/*)
+    FILE(GLOB_RECURSE children LIST_DIRECTORIES true CONFIGURE_DEPENDS ${curdir}/*)
     SET(dirlist "")
     FOREACH(child ${children})
         IF(IS_DIRECTORY ${child})
@@ -42,19 +42,27 @@ SUBDIRLIST(SOURCE_DIRECTORIES src)
 
 # in each subdirectory, find cpp files and add them to the source list
 set(SOURCES "")
+set(TEST_SOURCES "")
 FOREACH(subdir ${SOURCE_DIRECTORIES})
     FILE(GLOB sources CONFIGURE_DEPENDS ${subdir}/*.cpp)
+    FILE(GLOB test_sources CONFIGURE_DEPENDS ${subdir}/test*.cpp)
+
     LIST(APPEND SOURCES ${sources})
+    IF(test_sources)
+        LIST(REMOVE_ITEM SOURCES ${test_sources})
+    ENDIF()
+
+    LIST(APPEND TEST_SOURCES ${test_sources})
 ENDFOREACH()
- 
+
 # include the source directories
-include_directories(${SOURCE_DIRECTORIES})
+include_directories(src)
 
 # create a build target for the main project file
 add_executable(main src/main.cpp ${SOURCES})
 
 # create a build target for the testing file
-add_executable(tests src/tests.cpp ${SOURCES})
+add_executable(tests src/tests.cpp ${TEST_SOURCES} ${SOURCES})
 target_link_libraries(tests PUBLIC gtest_main)
 
 # initialize GoogleTest
