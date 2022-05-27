@@ -1,9 +1,7 @@
 #include "Player.h"
 
-const std::vector<std::string> Player::correctFieldNames = {"id", "name",
-                                                            "password", "cash"};
-
-Player::Player() : id(0), name(""), password(""), cash(0) {}
+const std::array<std::string, 4> Player::correctFieldNames = {
+    "id", "name", "password", "cash"};
 
 std::vector<std::string> Player::toStrings()
 {

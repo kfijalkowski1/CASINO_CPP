@@ -1,17 +1,16 @@
 #pragma once
 #include "CSVManager/RowType.h"
+#include <array>
 
 class Score : public RowType
 {
-public:
-  const static std::vector<std::string> correctFieldNames;
+  public:
+    const static std::array<std::string, 3> correctFieldNames;
 
-  // Score();  //imo not ness to have empty constr
+    std::vector<std::string> toStrings();
+    void loadStrings(const std::vector<std::string> &rowValues);
 
-  std::vector<std::string> toStrings();
-  void loadStrings(const std::vector<std::string> &rowValues);
-
-  unsigned int playerId;
-  unsigned int gameId;
-  unsigned int score;
+    unsigned int playerId;
+    unsigned int gameId;
+    unsigned int score;
 };

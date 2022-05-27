@@ -1,12 +1,11 @@
 #pragma once
 #include "CSVManager/RowType.h"
+#include <array>
 
 class Player : public RowType
 {
   public:
-    const static std::vector<std::string> correctFieldNames;
-
-    Player();
+    const static std::array<std::string, 4> correctFieldNames;
 
     std::vector<std::string> toStrings();
     void loadStrings(const std::vector<std::string> &rowValues);

@@ -1,9 +1,7 @@
 #include "Score.h"
 
-const std::vector<std::string> Score::correctFieldNames = {"playerId", "gameId",
-                                                           "score"};
-
-// Score::Score() : playerId(0), gameId(0), score(0) {}  //imo not ness to have empty constr
+const std::array<std::string, 3> Score::correctFieldNames = {"playerId",
+                                                             "gameId", "score"};
 
 std::vector<std::string> Score::toStrings()
 {
