@@ -1,4 +1,4 @@
-PlayerId,GameId,Score
+playerId,gameId,score
 0,0,100
 0,1,100
 1,2,150
