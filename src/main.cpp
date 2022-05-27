@@ -7,7 +7,7 @@ int main()
 {
     try
     {
-        CSVfile<Player> test("../data/players.csv");
+        /*CSVfile<Player> test("../data/players.csv");
         //
         Player row = test[1];
         std::cout << row.id << ' ' << row.name << ' ' << std::endl;
@@ -15,7 +15,7 @@ int main()
         {
             std::cout << row.id << ' ' << row.name << ' ' << row.cash
                       << std::endl;
-        }
+        }*/
     }
     catch (std::exception &e)
     {
