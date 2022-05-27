@@ -3,6 +3,9 @@
 
 Color::Color(unsigned char colorCode) : colorCode(colorCode) {}
 
+Color Color::Default = Color(15);
+Color Color::DefaultBackground = Color(0);
+
 Color Color::RGB(unsigned char red, unsigned char green, unsigned char blue)
 {
     if (red >= 6 || green >= 6 || blue >= 6)

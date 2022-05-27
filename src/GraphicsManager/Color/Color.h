@@ -13,4 +13,7 @@ class Color
     static Color Grayscale(unsigned char brightness);
     static Color Standard(unsigned char colorCode);
     static Color Intensive(unsigned char colorCode);
+
+    static Color Default;
+    static Color DefaultBackground;
 };
