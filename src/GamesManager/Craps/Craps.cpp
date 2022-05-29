@@ -8,7 +8,7 @@ CrPlayer::CrPlayer(Player player)
     cash = player.cash;
 }
 
-void CrPlayer::setBets(unsigned int bet, unsigned int betType, unsigned int bet1, unsigned int bet2 = 0)
+void CrPlayer::setBets(unsigned int bet, unsigned int betType, unsigned int bet1, unsigned int bet2)
 {
     this->bet = bet;
     this->betType = betType;

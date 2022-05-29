@@ -11,14 +11,14 @@ class Dices
 {
     // there are always two dices and they are just 2 radnom num in 0-6 range
 public:
-    unsigned int dice1 = rand() % 6;
-    unsigned int dice2 = rand() % 6;
-
+    unsigned int dice1 = (rand() % 6) + 1;
+    unsigned int dice2 = (rand() % 6) + 1;
+    // wektor obiektów klay dice, każda kość ma draw
     Dices(){};
     void roll()
     {
-        dice1 = rand() % 6;
-        dice2 = rand() % 6;
+        dice1 = (rand() % 6) + 1;
+        dice2 = (rand() % 6) + 1;
     }
 };
 class CrPlayer : public Player
@@ -30,7 +30,7 @@ public:
     unsigned int betType = 1; // 1 -> sum, 2 -> pair, 3 -> specific, used for mux of return if win
     unsigned int bet1 = 0;    // used for specific player bets eg. if sum -> bet1 is sum, if pair -> bet1 is what of
     unsigned int bet2 = 0;
-    void setBets(unsigned int bet, unsigned int betType, unsigned int bet1, unsigned int bet2 = 0);
+    void setBets(unsigned int bet, unsigned int betType, unsigned int bet1, unsigned int bet2);
     Score giveDices(unsigned int dice1, unsigned int dice2);
 };
 
@@ -50,4 +50,5 @@ public:
     void addPlayer(Player &player);
     void summarise();
     void startNewDeal();
+    // draw -> cały stan na ekran,
 };
