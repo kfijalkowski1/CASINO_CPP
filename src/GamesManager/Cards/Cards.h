@@ -15,18 +15,19 @@ public:
     Card(unsigned int number, unsigned int suit);
     Card(std::string number, std::string suit);
     Card(std::string representation);
-    unsigned int getNumber();
-    std::string getNumber_str();
-    unsigned int getSuit();
-    std::string getSuit_str();
-    std::string to_string();
+    unsigned int getNumber() const;
+    std::string getNumber_str() const;
+    unsigned int getSuit() const;
+    std::string getSuit_str() const;
+    std::string to_string() const;
 
-    bool operator==(Card &other);
-    bool operator==(std::string cardRep);
-    bool operator!=(Card &other);
-    bool operator!=(std::string cardRep);
+    bool operator==(Card const &other) const;
+    bool operator==(std::string const cardRep) const;
+    bool operator!=(Card const &other) const;
+    bool operator!=(std::string const cardRep) const;
 
     //~Card();
+    void draw();
 };
 class Deck
 {
@@ -45,8 +46,8 @@ public:
     // Deck(bool withJoker, unsigned int nOfStdDecks);
     // Deck(std::vector<Card>);
     void shuffle();
-    unsigned int getNofCards();
-    unsigned int getTotalNofCards();
+    unsigned int getNofCards() const;
+    unsigned int getTotalNofCards() const;
     // void use(Card cardToUse);
     Card getCard();
     // Card getCard(int index);
@@ -55,12 +56,13 @@ public:
     // Deck operator+(Deck &other);
     // void operator+=(Deck &other);
     // void operator-=(Card &cardToUse);
-    bool operator==(Deck &other);
-    bool operator==(std::vector<Card> &other);
-    bool operator==(std::vector<std::string> &other);
-    bool operator!=(Deck &other);
-    bool operator!=(std::vector<Card> &other);
-    bool operator!=(std::vector<std::string> &other);
+    bool operator==(Deck const &other) const;
+    bool operator==(std::vector<Card> const &other) const;
+    bool operator==(std::vector<std::string> const &other) const;
+    bool operator!=(Deck const &other) const;
+    bool operator!=(std::vector<Card> const &other) const;
+    bool operator!=(std::vector<std::string> const &other) const;
 
     //~Deck();
+    void draw();
 };

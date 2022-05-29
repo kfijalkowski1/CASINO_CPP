@@ -1,6 +1,7 @@
-#pragma once
 #include "Cards.h"
 #include <map>
+#include <algorithm>
+#include <experimental/random>
 
 std::map<std::string, unsigned int> suit_to_i = {{"Clubs", 0}, {"Diamonds", 1}, {"Hearts", 2}, {"Spades", 3}};
 std::map<unsigned int, std::string> i_to_suit = {{0, "Clubs"}, {1, "Diamonds"}, {2, "Hearts"}, {3, "Spades"}};
@@ -60,40 +61,40 @@ Card::Card(std::string representation)
     this->number = val_to_i[temp_v];
     this->suit = suit_to_i[temp_s];
 }
-unsigned int Card::getNumber()
+unsigned int Card::getNumber() const
 {
     return number;
 }
-std::string Card::getNumber_str()
+std::string Card::getNumber_str() const
 {
     return i_to_val[number];
 }
-unsigned int Card::getSuit()
+unsigned int Card::getSuit() const
 {
     return suit;
 }
-std::string Card::getSuit_str()
+std::string Card::getSuit_str() const
 {
     return i_to_suit[suit];
 }
-std::string Card::to_string()
+std::string Card::to_string() const
 {
     return (i_to_val[number] + i_to_suit[suit]);
 }
-bool Card::operator==(Card &other)
+bool Card::operator==(Card const &other) const
 {
     return (number == other.number && suit == other.suit);
 }
-bool Card::operator==(std::string cardRep)
+bool Card::operator==(std::string const cardRep) const
 {
     Card temp(cardRep);
     return (*this) == temp;
 }
-bool Card::operator!=(Card &other)
+bool Card::operator!=(Card const &other) const
 {
     return !((*this) == other);
 }
-bool Card::operator!=(std::string cardRep)
+bool Card::operator!=(std::string const cardRep) const
 {
     return !((*this) == cardRep);
 }
@@ -129,11 +130,11 @@ std::vector<Card> Deck::generateStdDeck()
     }
     return stdDeckInOrder;
 }
-unsigned int Deck::getNofCards()
+unsigned int Deck::getNofCards() const
 {
     return cards.size();
 }
-unsigned int Deck::getTotalNofCards()
+unsigned int Deck::getTotalNofCards() const
 {
     return (cards.size() + usedCards.size());
 }
@@ -147,15 +148,15 @@ void Deck::addToUsed(Card &usedCard)
 {
     usedCards.push_back(usedCard);
 }
-bool Deck::operator==(Deck &other)
+bool Deck::operator==(Deck const &other) const
 {
     return (cards == other.cards && usedCards == other.usedCards);
 }
-bool Deck::operator==(std::vector<Card> &other)
+bool Deck::operator==(std::vector<Card> const &other) const
 {
     return cards == other;
 }
-bool Deck::operator==(std::vector<std::string> &other)
+bool Deck::operator==(std::vector<std::string> const &other) const
 {
     for (int i = 0; i < getNofCards(); i++)
     {
@@ -164,15 +165,28 @@ bool Deck::operator==(std::vector<std::string> &other)
     }
     return true;
 }
-bool Deck::operator!=(Deck &other)
+bool Deck::operator!=(Deck const &other) const
 {
     return !((*this) == other);
 }
-bool Deck::operator!=(std::vector<Card> &other)
+bool Deck::operator!=(std::vector<Card> const &other) const
 {
     return !((*this) == other);
 }
-bool Deck::operator!=(std::vector<std::string> &other)
+bool Deck::operator!=(std::vector<std::string> const &other) const
 {
     return !((*this) == other);
+}
+void Deck::shuffle()
+{
+    int random_number1 = std::experimental::randint(0, (int)getNofCards());
+    int random_number2;
+    cards.insert((cards.begin() + random_number1), usedCards.begin(), usedCards.end());
+    usedCards = {};
+    for (int i = getNofCards(); i < 0; i--)
+    {
+        random_number1 = std::experimental::randint(0, (int)getNofCards());
+        random_number2 = std::experimental::randint(0, (int)getNofCards());
+        std::swap(cards[random_number1], cards[random_number2]);
+    }
 }
