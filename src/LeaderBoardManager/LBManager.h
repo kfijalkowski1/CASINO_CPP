@@ -26,6 +26,8 @@ public:
     {
         (*filePtr).push_back(s);
     }
+    // delete not done, donno if needed
+    // void deleteScore(Score const &s) noexcept;
 
     void saveScores();
 

@@ -41,3 +41,15 @@ std::vector<Score> LBReader::getLeaders(unsigned int gameId)
     result.push_back(thirdScore);
     return result;
 }
+
+// nie dokończone nie wiem czy potrzebne
+// void LBReader::deleteScore(Score const &s) noexcept
+// {
+//     for (auto i : (*filePtr))
+//     {
+//         if (i == s)
+//         {
+//             delete *i;
+//         }
+//     }
+// }
