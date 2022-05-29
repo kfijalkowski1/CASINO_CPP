@@ -52,6 +52,7 @@ public:
     Card getCard();
     // Card getCard(int index);
     void addToUsed(Card &usedCard);
+    void addToUsed(std::vector<Card> &usedCards);
 
     // Deck operator+(Deck &other);
     // void operator+=(Deck &other);

@@ -148,6 +148,10 @@ void Deck::addToUsed(Card &usedCard)
 {
     usedCards.push_back(usedCard);
 }
+void Deck::addToUsed(std::vector<Card> &recentlyUsedCards)
+{
+    usedCards.insert(usedCards.end(), recentlyUsedCards.begin(), recentlyUsedCards.end());
+}
 bool Deck::operator==(Deck const &other) const
 {
     return (cards == other.cards && usedCards == other.usedCards);
