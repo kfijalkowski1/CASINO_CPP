@@ -19,3 +19,10 @@ void Player::loadStrings(const std::vector<std::string> &rowValues)
     password = rowValues[2];
     cash = std::stoul(rowValues[3]);
 }
+
+// implement compere operators
+
+bool Player::operator==(Player const &p) const noexcept
+{
+    return id == p.id;
+}

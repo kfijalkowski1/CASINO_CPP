@@ -14,4 +14,6 @@ public:
   std::string name;
   std::string password;
   unsigned int cash;
+
+  bool operator==(Player const &p) const noexcept;
 };
