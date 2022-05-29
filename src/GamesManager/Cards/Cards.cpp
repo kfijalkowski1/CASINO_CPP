@@ -194,3 +194,7 @@ void Deck::shuffle()
         std::swap(cards[random_number1], cards[random_number2]);
     }
 }
+bool Deck::checkIfEnough()
+{
+    return (cards.size() > 50);
+}
