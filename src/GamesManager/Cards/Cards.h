@@ -45,6 +45,7 @@ public:
     Deck(unsigned int nOfStdDecks);
     // Deck(bool withJoker, unsigned int nOfStdDecks);
     // Deck(std::vector<Card>);
+    bool checkIfEnough();
     void shuffle();
     unsigned int getNofCards() const;
     unsigned int getTotalNofCards() const;
@@ -52,6 +53,7 @@ public:
     Card getCard();
     // Card getCard(int index);
     void addToUsed(Card &usedCard);
+    void addToUsed(std::vector<Card> &usedCards);
 
     // Deck operator+(Deck &other);
     // void operator+=(Deck &other);

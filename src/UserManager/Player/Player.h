@@ -13,7 +13,7 @@ public:
   unsigned int id;
   std::string name;
   std::string password;
-  unsigned int cash;
+  unsigned int cash; // cash could be separate class
 
   bool operator==(Player const &p) const noexcept;
 };

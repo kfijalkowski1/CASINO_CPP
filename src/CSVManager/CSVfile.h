@@ -11,15 +11,16 @@
 // records in rows
 // values of records separated by separator
 
-template <class Row> class CSVfile
+template <class Row>
+class CSVfile
 {
-  private:
+private:
     std::string path;
     std::string separator = ",";
     std::vector<std::string> fieldNames;
     std::vector<Row> rows;
 
-  public:
+public:
     CSVfile(std::string path, std::string separator)
         : path(path), separator(separator)
     {
