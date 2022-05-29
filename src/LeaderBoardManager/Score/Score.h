@@ -40,6 +40,10 @@ public:
   {
     return score < s.score;
   }
+  bool operator==(Score const &s) const noexcept
+  {
+    return ((score == s.score) && (gameId == s.gameId) && (playerId == s.playerId));
+  }
 
   friend std::ostream &operator<<(std::ostream &os, Score &s)
   {
