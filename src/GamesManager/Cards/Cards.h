@@ -15,24 +15,51 @@ public:
     Card(std::string number, std::string suit);
     Card(std::string representation);
     unsigned int getNumber();
+    std::string getNumber_str();
     unsigned int getSuit();
+    std::string getSuit_str();
     std::string to_string();
+
+    bool operator==(Card &other);
+    bool operator==(std::string cardRep);
+    bool operator!=(Card &other);
+    bool operator!=(std::string cardRep);
+
     //~Card();
 };
 class Deck
 {
 private:
-    bool withJoker = false;
-    // size_t  nCardsLeft = 52;
-    // size_t  nStandardDecks = 1;
+    // bool withJoker = false;
+    //  size_t  nCardsLeft = 52;
+    //  size_t  nStandardDecks = 1;
     std::vector<Card> cards;
-    std::vector<Card> usedCards;
+    std::vector<Card> usedCards = {};
+
+    std::vector<Card> generateStdDeck();
 
 public:
     Deck();
-    Deck(bool withJoker, unsigned int nOfStdDecks);
-    Deck(bool withJoker, std::vector<Card>);
+    Deck(unsigned int nOfStdDecks);
+    // Deck(bool withJoker, unsigned int nOfStdDecks);
+    // Deck(std::vector<Card>);
     void shuffle();
+    unsigned int getNofCards();
+    unsigned int getTotalNofCards();
+    // void use(Card cardToUse);
+    Card getCard();
+    // Card getCard(int index);
+    void addToUsed(Card &usedCard);
+
+    // Deck operator+(Deck &other);
+    // void operator+=(Deck &other);
+    // void operator-=(Card &cardToUse);
+    bool operator==(Deck &other);
+    bool operator==(std::vector<Card> &other);
+    bool operator==(std::vector<std::string> &other);
+    bool operator!=(Deck &other);
+    bool operator!=(std::vector<Card> &other);
+    bool operator!=(std::vector<std::string> &other);
 
     //~Deck();
 };
