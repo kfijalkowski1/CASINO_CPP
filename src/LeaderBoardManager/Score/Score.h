@@ -1,5 +1,6 @@
 #pragma once
 #include "../../CSVManager/RowType.h"
+#include <string>
 #include <array>
 
 class Score : public RowType
@@ -42,7 +43,7 @@ public:
 
   friend std::ostream &operator<<(std::ostream &os, Score &s)
   {
-    os << s.playerId << ',' << s.gameId << ',' << s.score;
+    os << std::to_string(s.playerId) + ',' << std::to_string(s.gameId) + ',' << std::to_string(s.score);
     return os;
   }
 };

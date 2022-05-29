@@ -1,11 +1,10 @@
-#pragma once
 #include "LBManager.h"
 
 void LBReader::saveScores()
 {
     std::ofstream myfile;
     myfile.open("data/LBoardExample.csv");
-    for (auto i : rows)
+    for (auto i : (*filePtr))
     {
         myfile << i;
     }
@@ -19,7 +18,7 @@ std::vector<Score> LBReader::getLeaders(unsigned int gameId)
     Score bestScore;
     Score secondScore;
     Score thirdScore;
-    for (auto i : rows) // find biggest scores
+    for (auto i : (*filePtr)) // find biggest scores
     {
         if (i.getGameId() == gameId)
         {
