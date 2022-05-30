@@ -33,3 +33,13 @@ Color Color::Intensive(unsigned char colorCode)
         throw invalidColorException;
     return Color(8 + colorCode);
 }
+
+bool Color::operator==(Color &color)
+{
+    return this->colorCode == color.colorCode;
+}
+
+bool Color::operator!=(Color &color)
+{
+    return this->colorCode != color.colorCode;
+}

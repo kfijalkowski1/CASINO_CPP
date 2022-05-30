@@ -1,6 +1,5 @@
 #pragma once
 #include "GraphicsManager/Color/Color.h"
-#include "GraphicsManager/GraphicsManager.h"
 #include "GraphicsManager/Position/Position.h"
 #include <string>
 #include <vector>
@@ -11,10 +10,13 @@ class ImageBuffer
     std::vector<std::vector<char>> characters;
     std::vector<std::vector<Color>> colors;
     std::vector<std::vector<Color>> backgrounds;
+
+    static unsigned int width, height;
+    static void setSize(unsigned int width, unsigned int height);
     friend class GraphicsManager;
 
   public:
-    ImageBuffer(unsigned int width, unsigned int height);
+    ImageBuffer();
 
     void setPixel(Position pos, char character);
     void setPixel(Position pos, char character, Color color);

@@ -4,6 +4,7 @@ class Color
 {
   private:
     unsigned char colorCode;
+    friend class GraphicsCommands;
 
   public:
     Color(unsigned char colorCode);
@@ -16,4 +17,7 @@ class Color
 
     static Color Default;
     static Color DefaultBackground;
+
+    bool operator==(Color &color);
+    bool operator!=(Color &color);
 };

@@ -1,16 +1,14 @@
 #include "Position.h"
-#include "exceptions.h"
 
-unsigned int Position::bufferWidth = 0, Position::bufferHeight = 0;
-void Position::setBufferSize(unsigned int bufferWidth,
-                             unsigned int bufferHeight)
+Position::Position(unsigned int x, unsigned int y) : x(x), y(y) {}
+
+Position Position::operator+(const Position &that) const
 {
-    Position::bufferWidth = bufferWidth;
-    Position::bufferHeight = bufferHeight;
+    return Position(*this) += that;
 }
-
-Position::Position(unsigned int x, unsigned int y) : x(x), y(y)
+Position &Position::operator+=(const Position &that)
 {
-    if (x >= bufferWidth || y >= bufferHeight)
-        throw invalidPositionException;
+    x += that.x;
+    y += that.y;
+    return *this;
 }

@@ -1,14 +1,23 @@
 #include "ImageBuffer.h"
+#include "exceptions.h"
 
-ImageBuffer::ImageBuffer(unsigned int width, unsigned int height)
+unsigned int ImageBuffer::width = 0, ImageBuffer::height = 0;
+ImageBuffer::ImageBuffer()
     : characters(width, std::vector<char>(height, ' ')),
       colors(width, std::vector<Color>(height, Color::Default)),
       backgrounds(width, std::vector<Color>(height, Color::DefaultBackground))
 {
 }
+void ImageBuffer::setSize(unsigned int width, unsigned int height)
+{
+    ImageBuffer::width = width;
+    ImageBuffer::height = height;
+}
 
 void ImageBuffer::setPixel(Position pos, char character)
 {
+    if (pos.x >= width || pos.y >= height)
+        throw invalidPositionException;
     characters[pos.x][pos.y] = character;
 }
 void ImageBuffer::setPixel(Position pos, char character, Color color)
