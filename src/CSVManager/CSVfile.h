@@ -49,6 +49,17 @@ public:
         return result;
     }
 
+    void putLine(std::ofstream &file, std::vector<std::string> fields)
+    {
+        std::string sep = "";
+        for (auto field : fields)
+        {
+            file << sep << field;
+            sep = separator;
+        }
+        file << '\n';
+    }
+
     bool validateFieldNames(const std::vector<std::string> &fieldNames) const
     {
         if (Row::correctFieldNames.size() != fieldNames.size())
@@ -81,7 +92,20 @@ public:
         file.close();
     }
 
-    void save();
+    void save()
+    {
+        std::ofstream file(path);
+        if (!file.is_open())
+            throw fileNotFoundException;
+
+        putLine(file, fieldNames);
+        for (auto row : rows)
+        {
+            putLine(file, row.toStrings());
+        }
+
+        file.close();
+    };
 
     Row &getRow(std::size_t rowN)
     {
