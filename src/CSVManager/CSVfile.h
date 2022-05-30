@@ -11,16 +11,15 @@
 // records in rows
 // values of records separated by separator
 
-template <class Row>
-class CSVfile
+template <class Row> class CSVfile
 {
-private:
+  private:
     std::string path;
     std::string separator = ",";
     std::vector<std::string> fieldNames;
     std::vector<Row> rows;
 
-public:
+  public:
     CSVfile(std::string path, std::string separator)
         : path(path), separator(separator)
     {
@@ -76,11 +75,11 @@ public:
 
         std::ifstream file(path);
         if (!file.is_open())
-            throw fileNotFoundException;
+            throw FileNotFoundException();
 
         fieldNames = getLine(file);
         if (!validateFieldNames(fieldNames))
-            throw incorrectFieldNamesException;
+            throw IncorrectFieldNamesException();
 
         std::vector<std::string> rawRow;
         while ((rawRow = getLine(file)).size() > 0)
@@ -96,7 +95,7 @@ public:
     {
         std::ofstream file(path);
         if (!file.is_open())
-            throw fileNotFoundException;
+            throw FileNotFoundException();
 
         putLine(file, fieldNames);
         for (auto row : rows)
@@ -112,7 +111,7 @@ public:
         if (rows.size() > rowN && rowN >= 0)
             return rows[rowN];
         else
-            throw outOfBoundsException;
+            throw OutOfBoundsException();
     }
     Row &operator[](std::size_t rowN) { return getRow(rowN); }
     const Row &operator[](std::size_t rowN) const { return getRow(rowN); }

@@ -5,8 +5,8 @@
 // sum, pair(eg. 2, 2), specific(eg. 1, 2)
 
 #pragma once
-#include "../Cards/Cards.h"
-#include "../Game/Game.h"
+#include "GamesManager/Cards/Cards.h"
+#include "GamesManager/Game/Game.h"
 class Dices
 {
     // there are always two dices and they are just 2 radnom num in 0-6 range

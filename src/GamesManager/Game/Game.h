@@ -1,11 +1,11 @@
 #pragma once
+#include "LeaderBoardManager/Score/Score.h"
+#include "UserManager/Player/Player.h"
 #include <string>
-#include "../../UserManager/Player/Player.h"
-#include "../../LeaderBoardManager/Score/Score.h"
 
 class Rules
 {
-public:
+  public:
     std::string content;
     // std::string std_format();
     // std::string other_format();
@@ -13,7 +13,7 @@ public:
 
 class Game
 {
-public:
+  public:
     // AllManager pointer?
     std::string name;
     Rules rules;

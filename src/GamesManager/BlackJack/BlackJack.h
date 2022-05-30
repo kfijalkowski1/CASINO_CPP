@@ -1,6 +1,6 @@
 #pragma once
-#include "../Cards/Cards.h"
-#include "../Game/Game.h"
+#include "GamesManager/Cards/Cards.h"
+#include "GamesManager/Game/Game.h"
 
 /*
     std::string name;
@@ -14,7 +14,7 @@
 
 class BJHand
 {
-public:
+  public:
     BJHand();
     bool isSplitted = false;
     // std::vector<int> points = {0, 0};
@@ -26,7 +26,7 @@ public:
 };
 class BJPlayer : public Player
 {
-public:
+  public:
     BJPlayer();
     BJPlayer(Player player);
     BJHand hand;
@@ -35,19 +35,22 @@ public:
 
 class BlackJack : public Game
 {
-private:
+  private:
     std::vector<BJPlayer> playerBuffor = {};
     std::vector<BJPlayer> players;
     BJPlayer dealer;
     Deck deck;
     int getBet();
 
-public:
+  public:
     BlackJack(unsigned int nOfStdDecks);
     void startNewDeal();
     void addPlayer(Player &player);
-    void initalDistribiution(); // Distribute one card to each player and take bets
+    void
+    initalDistribiution(); // Distribute one card to each player and take bets
     void makeMove(Player &player, char decision);
-    void summarise(); // each player: 1.update money and bets 2.Write Score to buf 3.reset hands
-    void draw();      // draws current state of game (usually after each move and at the beggining)
+    void summarise(); // each player: 1.update money and bets 2.Write Score to
+                      // buf 3.reset hands
+    void draw(); // draws current state of game (usually after each move and at
+                 // the beggining)
 };

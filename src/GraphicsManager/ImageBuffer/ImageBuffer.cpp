@@ -17,7 +17,7 @@ void ImageBuffer::setSize(unsigned int width, unsigned int height)
 void ImageBuffer::setPixel(Position pos, char character)
 {
     if (pos.x >= width || pos.y >= height)
-        throw invalidPositionException;
+        throw InvalidPositionException();
     characters[pos.x][pos.y] = character;
 }
 void ImageBuffer::setPixel(Position pos, char character, Color color)

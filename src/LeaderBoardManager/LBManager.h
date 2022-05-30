@@ -1,8 +1,8 @@
 #pragma once
-#include <iostream>
+#include "CSVManager/CSVfile.h"
+#include "LeaderBoardManager/Score/Score.h"
 #include <fstream>
-#include "/home/gambolkf/projekty/PROI/proi-project-casino.o-sl-aj-kf/src/CSVManager/CSVfile.h"
-#include "/home/gambolkf/projekty/PROI/proi-project-casino.o-sl-aj-kf/src/LeaderBoardManager/Score/Score.h"
+#include <iostream>
 /*
 egzample line in CSV file:
 player id, game id, score
@@ -12,20 +12,17 @@ player id, game id, score
 //
 class LBReader
 {
-private:
+  private:
     CSVfile<Score> *filePtr;
 
-public:
+  public:
     LBReader()
     {
         std::string path = "data/LBoardExample.csv";
         CSVfile<Score> file(path);
         filePtr = &file;
     }
-    void pushScore(Score const &s)
-    {
-        (*filePtr).push_back(s);
-    }
+    void pushScore(Score const &s) { (*filePtr).push_back(s); }
     // delete not done, donno if needed
     // void deleteScore(Score const &s) noexcept;
 

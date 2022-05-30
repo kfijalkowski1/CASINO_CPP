@@ -1,5 +1,5 @@
 #pragma once
-#include "../../CSVManager/RowType.h"
+#include "CSVManager/RowType.h"
 #include <string>
 #include <array>
 
