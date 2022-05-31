@@ -27,7 +27,7 @@ void GraphicsManager::draw()
         {
             Color &color = currentBuffer.colors[x][y];
             Color &background = currentBuffer.backgrounds[x][y];
-            std::string character = currentBuffer.characters[x][y];
+            char32_t character = currentBuffer.characters[x][y];
             if (prevColor != color)
             {
                 GraphicsCommands::setColor(color);
@@ -39,7 +39,7 @@ void GraphicsManager::draw()
                 prevBackround = background;
             }
 
-            std::cout << character;
+            GraphicsCommands::printCharacter(character);
         }
         GraphicsCommands::setColor(Color::Default);
         GraphicsCommands::setBackground(Color::DefaultBackground);

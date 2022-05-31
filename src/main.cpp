@@ -34,13 +34,13 @@ int main()
         */
         GraphicsManager test(80, 24);
         ImageBuffer image;
-        image.setPixel(Position(0, 0), "a");
-        image.setPixel(Position(1, 1), "b");
-        image.setPixel(Position(2, 2), "c");
-        image.setPixel(Position(3, 3), "d");
+        image.setPixel(Position(0, 0), 'a');
+        image.setPixel(Position(1, 1), 'b');
+        image.setPixel(Position(2, 2), 'c');
+        image.setPixel(Position(3, 3), 'd');
         image.setBackground(Position(3, 3), Color::RGB(2, 3, 4));
         image.setColor(Position(5, 5), Color::Grayscale(10));
-        image.setPixel(Position(5, 5), "*");
+        image.setPixel(Position(5, 5), '*');
 
         ImageBuffer background = image;
 
@@ -50,8 +50,9 @@ int main()
         while (true)
         {
             image = background;
+            char32_t a = U'❤';
 
-            image.setPixel(pos, "❤", Color::RGB(1, 3, 3));
+            image.setPixel(pos, U'❤', Color::RGB(1, 3, 3));
             image.setColor(pos, Color::RGB(1, 3, 3));
 
             switch (direction)
@@ -80,7 +81,7 @@ int main()
             test.show(image);
 
             test.draw();
-            sleep_for(nanoseconds(100000000));
+            sleep_for(nanoseconds(10000000));
         }
     }
     catch (std::exception &e)
