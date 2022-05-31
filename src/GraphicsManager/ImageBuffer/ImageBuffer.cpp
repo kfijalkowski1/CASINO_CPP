@@ -1,5 +1,4 @@
 #include "ImageBuffer.h"
-#include "exceptions.h"
 
 unsigned int ImageBuffer::width = 0, ImageBuffer::height = 0;
 ImageBuffer::ImageBuffer()
@@ -16,8 +15,6 @@ void ImageBuffer::setSize(unsigned int width, unsigned int height)
 
 void ImageBuffer::setPixel(Position pos, char32_t character)
 {
-    if (pos.x >= width || pos.y >= height)
-        throw InvalidPositionException();
     characters[pos.x][pos.y] = character;
 }
 void ImageBuffer::setPixel(Position pos, char32_t character, Color color)
@@ -51,4 +48,74 @@ void ImageBuffer::clear()
 
     for (auto &column : backgrounds)
         std::fill(column.begin(), column.end(), Color::DefaultBackground);
+}
+
+void ImageBuffer::writeText(Position pos, std::u32string text)
+{
+    for (auto character : text)
+    {
+        setPixel(pos, character);
+        pos += Position(1, 0);
+    }
+}
+void ImageBuffer::writeText(Box space, std::u32string text, TextAlignment align)
+{
+    int width = space.bottomRight.x - space.topLeft.x;
+    int freeSpace = width - text.length();
+
+    Position textPos(space.topLeft);
+    switch (align)
+    {
+    case TextAlignment::center:
+        textPos += Position(freeSpace / 2, 0);
+        break;
+    case TextAlignment::right:
+        textPos += Position(freeSpace, 0);
+        break;
+    }
+    writeText(textPos, text);
+}
+void ImageBuffer::writeText(Position pos, std::string text)
+{
+    std::u32string converted(text.begin(), text.end());
+    writeText(pos, converted);
+}
+void ImageBuffer::writeText(Box space, std::string text, TextAlignment align)
+{
+    std::u32string converted(text.begin(), text.end());
+    writeText(space, converted, align);
+}
+
+void ImageBuffer::drawBoxCharacter(Box box, char32_t character)
+{
+    Position pos(box.topLeft);
+    for (; pos.x < box.bottomRight.x; pos.x++)
+    {
+        for (pos.y = box.topLeft.y; pos.y < box.bottomRight.y; pos.y++)
+        {
+            setPixel(pos, character);
+        }
+    }
+}
+void ImageBuffer::drawBoxColor(Box box, Color color)
+{
+    Position pos(box.topLeft);
+    for (; pos.x < box.bottomRight.x; pos.x++)
+    {
+        for (pos.y = box.topLeft.y; pos.y < box.bottomRight.y; pos.y++)
+        {
+            setColor(pos, color);
+        }
+    }
+}
+void ImageBuffer::drawBoxBackground(Box box, Color background)
+{
+    Position pos(box.topLeft);
+    for (; pos.x < box.bottomRight.x; pos.x++)
+    {
+        for (pos.y = box.topLeft.y; pos.y < box.bottomRight.y; pos.y++)
+        {
+            setBackground(pos, background);
+        }
+    }
 }

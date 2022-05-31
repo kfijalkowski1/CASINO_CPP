@@ -1,6 +1,8 @@
 #pragma once
+#include "GraphicsManager/Box/Box.h"
 #include "GraphicsManager/Color/Color.h"
 #include "GraphicsManager/Position/Position.h"
+#include <string>
 #include <vector>
 
 class ImageBuffer
@@ -15,6 +17,12 @@ class ImageBuffer
     friend class GraphicsManager;
 
   public:
+    enum TextAlignment
+    {
+        left,
+        center,
+        right
+    };
     ImageBuffer();
 
     void setPixel(Position pos, char32_t character);
@@ -23,6 +31,15 @@ class ImageBuffer
                   Color background);
     void setColor(Position pos, Color color);
     void setBackground(Position pos, Color background);
+
+    void writeText(Position pos, std::string text);
+    void writeText(Position pos, std::u32string text);
+    void writeText(Box space, std::string text, TextAlignment align);
+    void writeText(Box space, std::u32string text, TextAlignment align);
+
+    void drawBoxCharacter(Box box, char32_t character);
+    void drawBoxColor(Box box, Color color);
+    void drawBoxBackground(Box box, Color background);
 
     void clear();
 };

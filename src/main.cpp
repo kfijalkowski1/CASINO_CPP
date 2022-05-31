@@ -42,6 +42,10 @@ int main()
         image.setColor(Position(5, 5), Color::Grayscale(10));
         image.setPixel(Position(5, 5), '*');
 
+        image.writeText(Position(8, 8), "Hello there");
+        image.writeText(Box(0, 12, 80, 24), "Welcome",
+                        ImageBuffer::TextAlignment::right);
+
         ImageBuffer background = image;
 
         Position pos = Position(0, 0);
@@ -54,6 +58,10 @@ int main()
 
             image.setPixel(pos, U'❤', Color::RGB(1, 3, 3));
             image.setColor(pos, Color::RGB(1, 3, 3));
+
+            image.drawBoxBackground(
+                Box(pos + Position(1, 1), pos + Position(3, 4)),
+                Color::RGB(4, 4, 1));
 
             switch (direction)
             {
@@ -81,7 +89,7 @@ int main()
             test.show(image);
 
             test.draw();
-            sleep_for(nanoseconds(10000000));
+            sleep_for(nanoseconds(100000000));
         }
     }
     catch (std::exception &e)
