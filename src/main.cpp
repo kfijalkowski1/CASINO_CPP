@@ -34,49 +34,59 @@ int main()
         */
         GraphicsManager test(80, 24);
         ImageBuffer image;
-        image.setPixel(Position(0, 0), 'a');
-        image.setPixel(Position(1, 1), 'b');
-        image.setPixel(Position(2, 2), 'c');
-        image.setPixel(Position(3, 3), 'd');
-        image.setBackground(Position(3, 3), Color::RGB(2, 3, 4));
-        image.setColor(Position(5, 5), Color::Grayscale(10));
-        image.setPixel(Position(5, 5), '*');
+        // image.setPixel(Position(0, 0), 'a');
+        // image.setBackground(Position(3, 3), Color::RGB(2, 3, 4));
+        // image.setPixel(Position(1, 1), 'b');
+        // image.setBackground(Position(3, 3), Color::RGB(2, 3, 4));
+        // image.setPixel(Position(2, 2), 'c');
+        // image.setBackground(Position(3, 3), Color::RGB(2, 3, 4));
+        // image.setPixel(Position(3, 3), 'd');
+        // image.setBackground(Position(3, 3), Color::RGB(2, 3, 4));
+        // image.setColor(Position(5, 5), Color::Grayscale(10));
+        // image.setPixel(Position(5, 5), '*');
 
         ImageBuffer background = image;
 
         Position pos = Position(0, 0);
+        for (int i = 0; i < 3; ++i)
+        {
+            image.setPixel(pos, '⦿', Color::RGB(1, 3, 3), Color::RGB(1, 3, 3));
+            pos += Position(1, 0);
+            image.setPixel(pos, '⦿', Color::RGB(1, 3, 3), Color::RGB(1, 3, 3));
+            pos += Position(-1, 1);
+        }
+
         int count = 0;
         int direction = 0;
         while (true)
         {
-            image = background;
 
-            image.setPixel(pos, '*', Color::RGB(1, 3, 3), Color::RGB(1, 3, 3));
-            image.setColor(pos, Color::RGB(1, 3, 3));
-            image.setBackground(pos, Color::RGB(1, 3, 3));
+            // image.setPixel(pos, '*', Color::RGB(1, 3, 3), Color::RGB(1, 3, 3));
+            // image.setColor(pos, Color::RGB(1, 3, 3));
+            // image.setBackground(pos, Color::RGB(1, 3, 3));
 
-            switch (direction)
-            {
-            case 0:
-                pos += Position(1, 0);
-                break;
-            case 1:
-                pos += Position(0, 1);
-                break;
-            case 2:
-                pos += Position(-1, 0);
-                break;
-            case 3:
-                pos += Position(0, -1);
-                break;
-            }
-            count++;
-            if (count >= 5)
-            {
-                count = 0;
-                direction++;
-                direction %= 4;
-            }
+            // switch (direction)
+            // {
+            // case 0:
+            //     pos += Position(1, 0);
+            //     break;
+            // case 1:
+            //     pos += Position(0, 1);
+            //     break;
+            // case 2:
+            //     pos += Position(-1, 0);
+            //     break;
+            // case 3:
+            //     pos += Position(0, -1);
+            //     break;
+            // }
+            // count++;
+            // if (count >= 5)
+            // {
+            //     count = 0;
+            //     direction++;
+            //     direction %= 4;
+            // }
 
             test.show(image);
 
