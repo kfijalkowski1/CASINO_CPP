@@ -20,15 +20,23 @@ class Dice
     // class for dice
 private:
     unsigned int value = (rand() % 6) + 1;
+    void drawDot(ImageBuffer image, Position pos);
+    void drawSpace(ImageBuffer image, Position pos);
+    void drawEmptyRow(ImageBuffer image, Position pos); // position is starting position
+    void drawTwoInRow(ImageBuffer image, Position pos);
+    void drawMiddleRow(ImageBuffer image, Position pos);
+    void drawLeftRow(ImageBuffer image, Position pos);
+    void drawRightRow(ImageBuffer image, Position pos);
 
 public:
     Dice(){};
     unsigned int getValue() const noexcept;
     void roll() noexcept;
-    void draw(int x = 0, int y = 0); // x and y are the beggining positions for draw
-    void drawDot(ImageBuffer image, Position pos);
-    void drawSpace(ImageBuffer image, Position pos);
+
     bool operator==(unsigned int const &value) const noexcept;
+
+    // opetarions for drawing a Dice
+    void draw(int x = 0, int y = 0); // x and y are the beggining positions for draw
 };
 
 class Dices

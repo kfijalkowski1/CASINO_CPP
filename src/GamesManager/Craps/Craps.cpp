@@ -11,6 +11,56 @@ void Dice::roll() noexcept
     value = (rand() % 6) + 1;
 }
 
+void Dice::drawEmptyRow(ImageBuffer image, Position pos)
+{
+    for (int i = 0; i < 3; ++i)
+    {
+        (*this).drawSpace(image, pos);
+        pos += Position(1, 0);
+    }
+    pos += Position(-3, 0);
+}
+
+void Dice::drawTwoInRow(ImageBuffer image, Position pos)
+{
+    (*this).drawDot(image, pos);
+    pos += Position(1, 0);
+    (*this).drawSpace(image, pos);
+    pos += Position(1, 0);
+    (*this).drawDot(image, pos);
+    pos += Position(-2, 0);
+}
+
+void Dice::drawMiddleRow(ImageBuffer image, Position pos)
+{
+    (*this).drawSpace(image, pos);
+    pos += Position(1, 0);
+    (*this).drawDot(image, pos);
+    pos += Position(1, 0);
+    (*this).drawSpace(image, pos);
+    pos += Position(-2, 0);
+}
+
+void Dice::drawLeftRow(ImageBuffer image, Position pos)
+{
+    (*this).drawDot(image, pos);
+    pos += Position(1, 0);
+    (*this).drawSpace(image, pos);
+    pos += Position(1, 0);
+    (*this).drawSpace(image, pos);
+    pos += Position(-2, 0);
+}
+
+void Dice::drawRightRow(ImageBuffer image, Position pos)
+{
+    (*this).drawSpace(image, pos);
+    pos += Position(1, 0);
+    (*this).drawSpace(image, pos);
+    pos += Position(1, 0);
+    (*this).drawDot(image, pos);
+    pos += Position(-2, 0);
+}
+
 void Dice::drawDot(ImageBuffer image, Position pos)
 {
     image.setPixel(pos, '✦', Color::RGB(255, 255, 255), Color::RGB(1, 3, 3));
@@ -23,16 +73,51 @@ void Dice::drawSpace(ImageBuffer image, Position pos)
 
 void Dice::draw(int x, int y)
 {
+
     GraphicsManager test(80, 24);
     ImageBuffer image;
 
     Position pos = Position(x, y);
-    for (int i = 0; i < 3; ++i)
-    {
-    }
 
-    int count = 0;
-    int direction = 0;
+    switch (value)
+    {
+    case 1:
+        (*this).drawEmptyRow(image, pos);
+        pos += Position(0, 1);
+        (*this).drawMiddleRow(image, pos);
+        pos += Position(0, 1);
+        (*this).drawEmptyRow(image, pos);
+    case 2:
+        (*this).drawLeftRow(image, pos);
+        pos += Position(0, 1);
+        (*this).drawEmptyRow(image, pos);
+        pos += Position(0, 1);
+        (*this).drawRightRow(image, pos);
+    case 3:
+        (*this).drawLeftRow(image, pos);
+        pos += Position(0, 1);
+        (*this).drawMiddleRow(image, pos);
+        pos += Position(0, 1);
+        (*this).drawRightRow(image, pos);
+    case 4:
+        (*this).drawTwoInRow(image, pos);
+        pos += Position(0, 1);
+        (*this).drawEmptyRow(image, pos);
+        pos += Position(0, 1);
+        (*this).drawTwoInRow(image, pos);
+    case 5:
+        (*this).drawTwoInRow(image, pos);
+        pos += Position(0, 1);
+        (*this).drawMiddleRow(image, pos);
+        pos += Position(0, 1);
+        (*this).drawTwoInRow(image, pos);
+    case 6:
+        (*this).drawTwoInRow(image, pos);
+        pos += Position(0, 1);
+        (*this).drawTwoInRow(image, pos);
+        pos += Position(0, 1);
+        (*this).drawTwoInRow(image, pos);
+    }
     while (true)
     {
         test.show(image);
