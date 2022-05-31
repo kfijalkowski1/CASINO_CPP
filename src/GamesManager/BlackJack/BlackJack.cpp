@@ -46,22 +46,16 @@ void BlackJack::startNewDeal()
     for (auto player : players)
     {
 
-        player.bet = getBet();
-        // take bets ? cin?
-        // draw
+        // player.bet = getBet();
+        //  take bets ? cin?
+        //  draw
     }
 }
-BJPlayer::BJPlayer(Player player)
-{
-    name = player.name;
-    id = player.id;
-    password = player.password;
-    cash = player.cash;
-}
+
 void BlackJack::addPlayer(Player &newPlayer)
 {
-    BJPlayer newBJPlayer(newPlayer);
-    playerBuffor.push_back(newBJPlayer);
+    // BJPlayer newBJPlayer(newPlayer);
+    // playerBuffor.push_back(newBJPlayer);
 }
 void BlackJack::makeMove(Player &player, char decision)
 {
