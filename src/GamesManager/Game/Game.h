@@ -5,18 +5,18 @@
 
 class Rules
 {
-  public:
-    std::string content;
-    // std::string std_format();
-    // std::string other_format();
+public:
+  std::string content;
+  // std::string std_format();
+  // std::string other_format();
 };
 
 class Game
 {
-  public:
-    // AllManager pointer?
-    std::string name;
-    Rules rules;
-    std::vector<Score> Score_cashe;
-    virtual void draw() = 0;
+public:
+  // AllManager pointer?
+  std::string name;
+  Rules rules;
+  std::vector<Score> Score_cashe;
+  virtual void draw() = 0;
 };
