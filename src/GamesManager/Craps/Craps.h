@@ -7,6 +7,13 @@
 #pragma once
 #include "GamesManager/Game/Game.h"
 #include "UserManager/Player/Player.h"
+#include "GraphicsManager/GraphicsManager.h"
+#include "UserManager/Player/Player.h"
+#include <exception>
+#include <iostream>
+
+#include <chrono>
+#include <thread>
 
 class Dice
 {
