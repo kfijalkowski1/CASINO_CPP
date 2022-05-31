@@ -34,13 +34,13 @@ int main()
         */
         GraphicsManager test(80, 24);
         ImageBuffer image;
-        image.setPixel(Position(0, 0), 'a');
-        image.setPixel(Position(1, 1), 'b');
-        image.setPixel(Position(2, 2), 'c');
-        image.setPixel(Position(3, 3), 'd');
+        image.setPixel(Position(0, 0), "a");
+        image.setPixel(Position(1, 1), "b");
+        image.setPixel(Position(2, 2), "c");
+        image.setPixel(Position(3, 3), "d");
         image.setBackground(Position(3, 3), Color::RGB(2, 3, 4));
         image.setColor(Position(5, 5), Color::Grayscale(10));
-        image.setPixel(Position(5, 5), '*');
+        image.setPixel(Position(5, 5), "*");
 
         ImageBuffer background = image;
 
@@ -51,9 +51,8 @@ int main()
         {
             image = background;
 
-            image.setPixel(pos, '*', Color::RGB(1, 3, 3), Color::RGB(1, 3, 3));
+            image.setPixel(pos, "❤", Color::RGB(1, 3, 3));
             image.setColor(pos, Color::RGB(1, 3, 3));
-            image.setBackground(pos, Color::RGB(1, 3, 3));
 
             switch (direction)
             {

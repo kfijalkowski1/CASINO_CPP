@@ -27,7 +27,7 @@ void GraphicsManager::draw()
         {
             Color &color = currentBuffer.colors[x][y];
             Color &background = currentBuffer.backgrounds[x][y];
-            char character = currentBuffer.characters[x][y];
+            std::string character = currentBuffer.characters[x][y];
             if (prevColor != color)
             {
                 GraphicsCommands::setColor(color);
