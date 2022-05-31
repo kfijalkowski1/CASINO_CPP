@@ -6,20 +6,39 @@
 
 #pragma once
 #include "GamesManager/Game/Game.h"
+#include "UserManager/Player/Player.h"
+
+class Dice
+{
+    // class for dice
+private:
+    unsigned int value = (rand() % 6) + 1;
+
+public:
+    Dice(){};
+    unsigned int getValue() const noexcept;
+    void roll() noexcept;
+    void draw(int x = 0, int y = 0); // x and y are the beggining positions for draw
+    void drawDot(ImageBuffer image, Position pos);
+    void drawSpace(ImageBuffer image, Position pos);
+    bool operator==(unsigned int const &value) const noexcept;
+};
+
 class Dices
 {
-    // there are always two dices and they are just 2 radnom num in 0-6 range
+    // normaly there are always two dices used, but for futhure expend, it's a dices vector
+private:
+    std::vector<Dice> dices;
+
 public:
-    unsigned int dice1 = (rand() % 6) + 1;
-    unsigned int dice2 = (rand() % 6) + 1;
     // wektor obiektów klay dice, każda kość ma draw
     Dices(){};
-    void roll()
-    {
-        dice1 = (rand() % 6) + 1;
-        dice2 = (rand() % 6) + 1;
-    }
+    void roll();
+    void draw(); // donno if ness yet
+    std::vector<Dice> getDices();
+    unsigned int sum();
 };
+
 class CrPlayer : public Player
 {
 public:
@@ -30,7 +49,7 @@ public:
     unsigned int bet1 = 0;    // used for specific player bets eg. if sum -> bet1 is sum, if pair -> bet1 is what of
     unsigned int bet2 = 0;
     void setBets(unsigned int bet, unsigned int betType, unsigned int bet1, unsigned int bet2);
-    Score giveDices(unsigned int dice1, unsigned int dice2);
+    Score giveDices(Dices dices);
 };
 
 class Craps : public Game
@@ -41,10 +60,8 @@ private:
     std::vector<CrPlayer> players;
 
 public:
-    Craps(std::vector<CrPlayer> players)
-    {
-        this->players = players;
-    }
+    Craps(std::vector<CrPlayer> players);
+    Craps(std::vector<Player> players);
     Craps(){};
     void addPlayer(Player &player);
     void summarise();
