@@ -245,7 +245,10 @@ void Craps::drawResult()
     mess += " coins";
     CrapsImage.writeText(pos, mess);
 }
-Craps::Craps(Player *player) { crPlayer.playerPtr = player; }
+Craps::Craps(Player *player) : state(State::mainMenu)
+{
+    crPlayer.playerPtr = player;
+}
 void Craps::addPlayer(Player *newPlayer) { crPlayer.playerPtr = newPlayer; }
 
 void Craps::chooseAction(unsigned int a)

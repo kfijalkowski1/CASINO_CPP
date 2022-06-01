@@ -4,6 +4,7 @@
 #include <string>
 
 BlackJack::BlackJack(Player &player, unsigned int nOfStdDecks)
+    : status(Status::mainMenu)
 {
     BJPlayer temp(player);
     this->player = temp;

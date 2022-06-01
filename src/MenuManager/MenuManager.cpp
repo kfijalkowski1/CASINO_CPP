@@ -1,3 +1,5 @@
+#include "GamesManager/BlackJack/BlackJack.h"
+#include "GamesManager/Craps/Craps.h"
 #include "MainManager/MainManager.h"
 #include "MenuManger.h"
 #include "UIController/SelectionMenu/SelectionMenu.h"
@@ -80,10 +82,11 @@ void MenuManager::callbackGameMenu(int sel)
     switch (sel)
     {
     case 0:
-        // run blackjack
+        mainManager->addUIController(
+            new BlackJack(*mainManager->currentPlayer, 6));
         break;
     case 1:
-        // run craps
+        mainManager->addUIController(new Craps(mainManager->currentPlayer));
         break;
     case 2:
         mainManager->removeUIController();
