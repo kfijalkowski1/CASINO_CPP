@@ -5,6 +5,9 @@
 class Player : public RowType
 {
   public:
+    Player();
+    Player(unsigned int id, std::string name, std::string password);
+
     const static std::array<std::string, 4> correctFieldNames;
 
     std::vector<std::string> toStrings();

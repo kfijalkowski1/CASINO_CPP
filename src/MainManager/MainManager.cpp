@@ -1,7 +1,7 @@
 #include "MainManager.h"
 #include "GraphicsManager/GraphicsCommands/GraphicsCommands.h"
 
-MainManager mainManager;
+MainManager *mainManager;
 
 MainManager::MainManager() : graphicsManager(80, 24), timingManager(60) {}
 
@@ -11,6 +11,9 @@ void MainManager::init()
     graphicsManager.init();
     timingManager.init();
     inputManager.init();
+
+    mainManager->addUIController(new UIController());
+    menuManager.init();
 }
 
 void MainManager::cleanup()
