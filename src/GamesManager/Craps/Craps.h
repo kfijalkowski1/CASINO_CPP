@@ -15,6 +15,8 @@
 #include <exception>
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <time.h>
 
 #include <chrono>
 #include <thread>
@@ -112,6 +114,7 @@ public:
     void processKeypress(Keypress);
     void drawResult();
     void setBets(std::string bet);
+    void setBetsNum(unsigned int type);
     void mainMenu();
     void chooseAction(unsigned int a);
     void tick(); // drows all dices and writes if won

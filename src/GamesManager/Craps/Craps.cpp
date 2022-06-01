@@ -3,7 +3,7 @@
 
 void Dice::roll() noexcept
 {
-    srand(rand());
+    srand(time(NULL));
     (*this).value = (rand() % 6) + 1;
 }
 
@@ -59,7 +59,7 @@ void Dice::drawRightRow(ImageBuffer &image, Position pos)
 
 void Dice::drawDot(ImageBuffer &image, Position pos)
 {
-    image.setPixel(pos, U'⦿', Color::RGB(1, 2, 3), Color::RGB(5, 5, 5));
+    image.setPixel(pos, U'✦', Color::RGB(1, 2, 3), Color::RGB(5, 5, 5));
 }
 
 void Dice::drawSpace(ImageBuffer &image, Position pos)
@@ -270,44 +270,55 @@ void Craps::chooseAction(unsigned int a)
     }
 }
 
+void Craps::setBetsNum(unsigned int type)
+{
+    mainManager.removeUIController();
+    crPlayer.betType = type + 1;
+    betsCount++;
+    if (crPlayer.betType == 1)
+    {
+        mainManager.addUIController(
+            new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
+                              Box(10, 0, 70, 24), U"Enter sum value: "));
+    }
+    if (crPlayer.betType == 2)
+    {
+        mainManager.addUIController(
+            new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
+                              Box(10, 0, 70, 24), U"Enter one dice value: "));
+    }
+    if (crPlayer.betType == 3)
+    {
+        mainManager.addUIController(
+            new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
+                              Box(10, 0, 70, 24), U"Enter one dice num,second dice num: "));
+    }
+}
+
 void Craps::setBets(std::string bet)
 {
 
     mainManager.removeUIController();
+
     int betNum;
+    std::istringstream ss(bet);
+
     switch (betsCount)
     {
     case 0:
-        betNum = stoi(bet);
+        ss >> betNum;
+        if (ss.fail())
+        {
+            state = State::mainMenu;
+            return;
+        }
+        // betNum = stoi(bet);
         crPlayer.bet = betNum;
         betsCount++;
         // if
         mainManager.addUIController(
-            new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
-                              Box(10, 0, 70, 24), U"Enter bet type(1->sum, 2->pair, 3->specific): "));
-        break;
-    case 1:
-        betNum = stoi(bet);
-        crPlayer.betType = betNum;
-        betsCount++;
-        if (crPlayer.betType == 1)
-        {
-            mainManager.addUIController(
-                new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
-                                  Box(10, 0, 70, 24), U"Enter sum value: "));
-        }
-        if (crPlayer.betType == 2)
-        {
-            mainManager.addUIController(
-                new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
-                                  Box(10, 0, 70, 24), U"Enter one dice value: "));
-        }
-        if (crPlayer.betType == 3)
-        {
-            mainManager.addUIController(
-                new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
-                                  Box(10, 0, 70, 24), U"Enter one dice num,second dice num: "));
-        }
+            new SelectionMenu(std::bind(&Craps::setBetsNum, this, std::placeholders::_1),
+                              Box(10, 0, 70, 24), {U"Sum (try to guess the sum of dices (2-12)", U"Pair", U"Specific Dices"}, U"Bet Type"));
         break;
     case 2:
         state = State::craps;
@@ -361,7 +372,10 @@ void Craps::tick()
     {
         if (counter < 80)
         {
-            dices.roll();
+            if (counter % 3 == 0)
+            {
+                dices.roll();
+            }
         }
         dices.draw(CrapsImage);
         mainManager.graphicsManager.show(CrapsImage);
