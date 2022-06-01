@@ -1,9 +1,10 @@
 #pragma once
-#include "Keypress/Keypress.h"
+#include "InputManager/Keypress/Keypress.h"
 
 class UIController
 {
   public:
-    virtual void tick() = 0;
-    virtual void processKeypress(Keypress key) = 0;
+    virtual void tick();
+    virtual void processKeypress(Keypress key);
+    virtual void postDraw();
 };

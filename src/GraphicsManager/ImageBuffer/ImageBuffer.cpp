@@ -15,7 +15,8 @@ void ImageBuffer::setSize(unsigned int width, unsigned int height)
 
 void ImageBuffer::setPixel(Position pos, char32_t character)
 {
-    characters[pos.x][pos.y] = character;
+    if (0 <= pos.x && pos.x <= width && 0 <= pos.y && pos.y <= height)
+        characters[pos.x][pos.y] = character;
 }
 void ImageBuffer::setPixel(Position pos, char32_t character, Color color)
 {
@@ -31,11 +32,13 @@ void ImageBuffer::setPixel(Position pos, char32_t character, Color color,
 }
 void ImageBuffer::setColor(Position pos, Color color)
 {
-    colors[pos.x][pos.y] = color;
+    if (0 <= pos.x && pos.x <= width && 0 <= pos.y && pos.y <= height)
+        colors[pos.x][pos.y] = color;
 }
 void ImageBuffer::setBackground(Position pos, Color background)
 {
-    backgrounds[pos.x][pos.y] = background;
+    if (0 <= pos.x && pos.x <= width && 0 <= pos.y && pos.y <= height)
+        backgrounds[pos.x][pos.y] = background;
 }
 
 void ImageBuffer::clear()
