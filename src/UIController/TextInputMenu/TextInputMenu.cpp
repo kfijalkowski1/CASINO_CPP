@@ -1,8 +1,8 @@
 #include "TextInputMenu.h"
 #include "MainManager/MainManager.h"
 
-TextInputMenu::TextInputMenu(void (*callback)(std::string), Box space,
-                             std::u32string header)
+TextInputMenu::TextInputMenu(std::function<void(std::string)> callback,
+                             Box space, std::u32string header)
     : callback(callback), space(space), textInputPosition(0, 0), textPosition(0)
 {
     initBuffer(header);

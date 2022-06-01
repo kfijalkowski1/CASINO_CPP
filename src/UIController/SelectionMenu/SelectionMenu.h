@@ -3,13 +3,14 @@
 #include "GraphicsManager/ImageBuffer/ImageBuffer.h"
 #include "UIController/UIController.h"
 
+#include <functional>
 #include <string>
 #include <vector>
 
 class SelectionMenu : public UIController
 {
   private:
-    void (*callback)(int);
+    std::function<void(int)> callback;
     Box space;
     std::vector<std::u32string> options;
     std::string header;
@@ -23,7 +24,7 @@ class SelectionMenu : public UIController
     void drawSelection();
 
   public:
-    SelectionMenu(void (*callback)(int), Box space,
+    SelectionMenu(std::function<void(int)> callback, Box space,
                   std::vector<std::u32string> options, std::u32string header);
     void init() override;
     void tick() override;
