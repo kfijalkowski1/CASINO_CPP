@@ -34,7 +34,6 @@ private:
 public:
     unsigned int value = 0;
     Dice(){};
-    unsigned int getValue() const noexcept;
     void roll() noexcept;
     void setValue(unsigned int a)
     {
@@ -44,16 +43,14 @@ public:
     bool operator==(unsigned int const &value) const noexcept;
 
     // opetarions for drawing a Dice
-    void draw(ImageBuffer &img, int x = 0, int y = 0); // x and y are the beggining positions for draw
+    void draw(ImageBuffer &img, int x = 5, int y = 5); // x and y are the beggining positions for draw
 };
 
 class Dices
 {
     // normaly there are always two dices used, but for futhure expend, it's a dices vector
-private:
-    std::vector<Dice> dices;
-
 public:
+    std::vector<Dice> dices;
     // wektor obiektów klay dice, każda kość ma draw
     Dices(); // constructor pushes two dices into vector
     void addDice();

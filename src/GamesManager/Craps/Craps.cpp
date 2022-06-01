@@ -1,11 +1,6 @@
 #include "Craps.h"
 // METHODES FOR DICE CLASS
 
-unsigned int Dice::getValue() const noexcept
-{
-    return value;
-}
-
 void Dice::roll() noexcept
 {
     srand(rand());
@@ -173,9 +168,9 @@ void Dices::roll()
 unsigned int Dices::sum()
 {
     unsigned int sum;
-    for (auto d : dices)
+    for (int i = 0; i < dices.size(); ++i)
     {
-        sum += d.getValue();
+        sum += dices[i].value;
     }
     return sum;
 };
@@ -200,7 +195,7 @@ void CrPlayer::giveDices(Dices dices)
     resultScore.playerId = playerPtr->id;
     if (betType == 1)
     {
-        if (dices.sum() == diceVal1)
+        if ((dices.dices[0].value + dices.dices[1].value) == diceVal1)
         {
             resultScore.score = (bet * 2);
         }
@@ -225,7 +220,7 @@ void CrPlayer::giveDices(Dices dices)
         result = -1 * bet;
     }
     playerPtr->cash += resultScore.score;
-    // Save score to LBMenager
+    mainManager.leaderManager.pushBack(resultScore);
     result = resultScore.score;
 }
 
@@ -233,7 +228,7 @@ void CrPlayer::giveDices(Dices dices)
 
 void Craps::drawResult()
 {
-    Position pos(20, 20);
+    Position pos(10, 10);
     crPlayer.giveDices(dices);
     std::string mess;
     if (crPlayer.result < 0)
@@ -263,9 +258,10 @@ void Craps::chooseAction(unsigned int a)
     if (a == 0)
     {
         state = State::setBetMenu;
+        this->betsCount = 0;
         mainManager.addUIController(
             new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
-                              Box(0, 0, 80, 24), U"Enter bet amount(cash): "));
+                              Box(10, 0, 70, 24), U"Enter bet amount(cash): "));
     }
     else
     {
@@ -276,6 +272,7 @@ void Craps::chooseAction(unsigned int a)
 
 void Craps::setBets(std::string bet)
 {
+
     mainManager.removeUIController();
     int betNum;
     switch (betsCount)
@@ -284,9 +281,10 @@ void Craps::setBets(std::string bet)
         betNum = stoi(bet);
         crPlayer.bet = betNum;
         betsCount++;
+        // if
         mainManager.addUIController(
             new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
-                              Box(0, 0, 80, 24), U"Enter bet type(1->sum, 2->pair, 3->specific): "));
+                              Box(10, 0, 70, 24), U"Enter bet type(1->sum, 2->pair, 3->specific): "));
         break;
     case 1:
         betNum = stoi(bet);
@@ -296,19 +294,19 @@ void Craps::setBets(std::string bet)
         {
             mainManager.addUIController(
                 new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
-                                  Box(0, 0, 80, 24), U"Enter sum value: "));
+                                  Box(10, 0, 70, 24), U"Enter sum value: "));
         }
         if (crPlayer.betType == 2)
         {
             mainManager.addUIController(
                 new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
-                                  Box(0, 0, 80, 24), U"Enter one dice value: "));
+                                  Box(10, 0, 70, 24), U"Enter one dice value: "));
         }
         if (crPlayer.betType == 3)
         {
             mainManager.addUIController(
                 new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
-                                  Box(0, 0, 80, 24), U"Enter one dice num,second dice num: "));
+                                  Box(10, 0, 70, 24), U"Enter one dice num,second dice num: "));
         }
         break;
     case 2:
@@ -353,7 +351,7 @@ void Craps::tick()
     {
         mainManager.addUIController(
             new SelectionMenu(std::bind(&Craps::chooseAction, this, std::placeholders::_1),
-                              Box(0, 0, 80, 24), {U"Plaay crabs", U"Quit"}, U"Casino.o")); // globalne menu, choose action doatanie int
+                              Box(10, 0, 70, 24), {U"Plaay crabs", U"Quit"}, U"CRAAAAABS")); // globalne menu, choose action doatanie int
     }
     else if (state == State::setBetMenu)
     {
