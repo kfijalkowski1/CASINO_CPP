@@ -5,50 +5,119 @@
 // sum, pair(eg. 2, 2), specific(eg. 1, 2)
 
 #pragma once
-#include "GamesManager/Cards/Cards.h"
 #include "GamesManager/Game/Game.h"
+#include "UserManager/Player/Player.h"
+#include "GraphicsManager/GraphicsManager.h"
+#include "UserManager/Player/Player.h"
+#include "MainManager/MainManager.h"
+#include "UIController/SelectionMenu/SelectionMenu.h"
+#include "UIController/TextInputMenu/TextInputMenu.h"
+#include <exception>
+#include <iostream>
+#include <string>
+
+#include <chrono>
+#include <thread>
+
+class Dice
+{
+    // class for dice
+private:
+    void drawDot(ImageBuffer &image, Position pos);
+    void drawSpace(ImageBuffer &image, Position pos);
+    void drawEmptyRow(ImageBuffer &image, Position pos); // position is starting position
+    void drawTwoInRow(ImageBuffer &image, Position pos);
+    void drawMiddleRow(ImageBuffer &image, Position pos);
+    void drawLeftRow(ImageBuffer &image, Position pos);
+    void drawRightRow(ImageBuffer &image, Position pos);
+
+public:
+    unsigned int value = 0;
+    Dice(){};
+    unsigned int getValue() const noexcept;
+    void roll() noexcept;
+    void setValue(unsigned int a)
+    {
+        value = a;
+    }
+
+    bool operator==(unsigned int const &value) const noexcept;
+
+    // opetarions for drawing a Dice
+    void draw(ImageBuffer &img, int x = 0, int y = 0); // x and y are the beggining positions for draw
+};
+
 class Dices
 {
-    // there are always two dices and they are just 2 radnom num in 0-6 range
+    // normaly there are always two dices used, but for futhure expend, it's a dices vector
+private:
+    std::vector<Dice> dices;
+
 public:
-    unsigned int dice1 = (rand() % 6) + 1;
-    unsigned int dice2 = (rand() % 6) + 1;
     // wektor obiektów klay dice, każda kość ma draw
-    Dices(){};
-    void roll()
-    {
-        dice1 = (rand() % 6) + 1;
-        dice2 = (rand() % 6) + 1;
-    }
+    Dices(); // constructor pushes two dices into vector
+    void addDice();
+    void roll();
+    void draw(ImageBuffer &img); // donno if ness yet
+    std::vector<Dice> getDices();
+    unsigned int sum();
 };
-class CrPlayer : public Player
+
+class CrPlayer
 {
 public:
-    CrPlayer();
-    CrPlayer(Player player);
-    unsigned int bet = 0;
-    unsigned int betType = 1; // 1 -> sum, 2 -> pair, 3 -> specific, used for mux of return if win
-    unsigned int bet1 = 0;    // used for specific player bets eg. if sum -> bet1 is sum, if pair -> bet1 is what of
-    unsigned int bet2 = 0;
+    Player *playerPtr;
+    CrPlayer(){};
+    CrPlayer(Player *player);
+    unsigned int bet = 0;      // cach value
+    unsigned int betType = 1;  // 1 -> sum, 2 -> pair, 3 -> specific, used for mux of return if win
+    unsigned int diceVal1 = 0; // used for specific player bets eg. if sum -> bet1 is sum, if pair -> bet1 is what of
+    unsigned int diceVal2 = 0;
     void setBets(unsigned int bet, unsigned int betType, unsigned int bet1, unsigned int bet2);
-    Score giveDices(unsigned int dice1, unsigned int dice2);
+    void giveDices(Dices dices);
+    int result;
+};
+
+enum class State // -> stan -> mainMenu -> setBetMenu -> kostki..
+{
+    mainMenu,
+    setBetMenu,
+    craps,
+    exit,
+    result
 };
 
 class Craps : public Game
 {
 private:
     unsigned int gameId = 444;
+    unsigned int counter = 0;
     Dices dices;
-    std::vector<CrPlayer> players;
+    // std::vector<CrPlayer *> players;
+    CrPlayer crPlayer;
+    State state;
+    int betsCount = 0;
 
 public:
-    Craps(std::vector<CrPlayer> players)
-    {
-        this->players = players;
-    }
+    ImageBuffer CrapsImage;
+    Craps(std::vector<CrPlayer> players);
+    Craps(std::vector<Player> players);
+    Craps(Player *player);
     Craps(){};
-    void addPlayer(Player &player);
+
+    // Logic methods
+    void roll() { dices.roll(); };
+    void addPlayer(Player *player);
     void summarise();
     void startNewDeal();
-    // draw -> cały stan na ekran,
+
+    // IO methods
+    void processKeypress(Keypress);
+    void drawResult();
+    void setBets(std::string bet);
+    void mainMenu();
+    void chooseAction(unsigned int a);
+    void tick(); // drows all dices and writes if won
+    std::string fakeMenu(std::string message);
+    void takeImput(std::string imput, CrPlayer &player);
 };
