@@ -73,7 +73,7 @@ void BlackJack::tick()
         mainManager.addUIController(new SelectionMenu(std::bind(&BlackJack::processDecision, this, std::placeholders::_1), Box(0, 0, 80, 24), {U"Hit", U"Stand"}, U"What do you do?"));
         break;
     case Status::animationSlideIn:
-        if (counter > rowIndex)
+        if (counter > 180)
         {
             img_bck = img;
             status = Status::decisionMenu;
@@ -83,7 +83,8 @@ void BlackJack::tick()
         {
             img = img_bck;
             size_t size = player.hand.cards.size();
-            player.hand.cards[size - 1].draw(img, Position((unsigned int)size, counter));
+            player.hand.cards[size - 1].draw(img, Position((unsigned int)size, ((unsigned int)counter / 10)));
+            mainManager.graphicsManager.show(img);
         }
         counter++;
         break;
