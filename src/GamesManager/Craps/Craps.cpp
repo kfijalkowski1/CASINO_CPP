@@ -155,7 +155,7 @@ void Dices::draw(ImageBuffer &img)
     for (int i = 0; i < dices.size(); ++i)
     {
         dices[i].draw(img, x, y);
-        if (x < ImageBuffer::width) // check if not in screen width anymore
+        if (x < 72) // ImageBuffer::width check if not in screen width anymore
         {
             x += 4;
         }
@@ -212,7 +212,7 @@ void CrPlayer::setBets(unsigned int bet, unsigned int betType, unsigned int bet1
     this->diceVal1 = bet1;
     this->diceVal2 = bet2;
 }
-int CrPlayer::giveDices(Dices dices)
+void CrPlayer::giveDices(Dices dices)
 {
     Score resultScore;
     resultScore.gameId = 444;
@@ -241,36 +241,17 @@ int CrPlayer::giveDices(Dices dices)
     if (resultScore.score == 0)
     {
         playerPtr->cash -= bet;
-        return -1 * bet;
+        result = -1 * bet;
     }
     playerPtr->cash += resultScore.score;
     // Save score to LBMenager
-    return resultScore.score;
+    result = resultScore.score;
 }
 
 void Craps::addPlayer(Player *newPlayer)
 {
-    playerPtr = newPlayer;
+    crPlayer.playerPtr = newPlayer;
 }
-
-// void Craps::startNewDeal()
-// {
-//     // rolls dices and asserts if someone won based on PAST SETBETS
-//     // rly imporatnt, first setBets, then use startNewDeal
-
-//     // TODO take bets and somehow recive them
-//     // std::string dec = fakeMenu();
-//     // fakeMenu("Enter bet amount", crPleyerEnterBet());
-
-//     dices.roll();
-//     (*this).draw();
-//     Score scrore = crPlayer.giveDices(dices);
-
-//     // LBMenager.pushBack(score);
-//     //(*this).drawResult()
-
-//     // fakeMenu(You won/lost  amount)
-// }
 
 void Craps::chooseAction(unsigned int a)
 {
@@ -290,17 +271,17 @@ void Craps::chooseAction(unsigned int a)
 void Craps::setBets(std::string bet)
 {
     // UI..kill
-
+    int betNum;
     switch (betsCount)
     {
     case 0:
-        int betNum = stoi(bet);
+        betNum = stoi(bet);
         crPlayer.bet = betNum;
         betsCount++;
         // SecondMenu(setBets, "Enter bet type(1->sum, 2->pair, 3->specific): ")
         break;
     case 1:
-        int betNum = stoi(bet);
+        betNum = stoi(bet);
         crPlayer.betType = betNum;
         betsCount++;
         if (crPlayer.betType == 1)
@@ -338,19 +319,18 @@ void Craps::setBets(std::string bet)
     }
     // UI..kil..
     dices.roll();
-    crPlayer.giveDices();
+    crPlayer.giveDices(dices);
     state = State::craps;
     //  Secon(SetBet2) -> cout setów -> startRolls -> ustawiam state na Crabs -> wybieram kosci -> zabieram/ daje monety
-    // end if
 }
 
-void Craps::processKeyPress(KeyPress)
-{
-    if (state == State::Result)
-    {
-        state = State::mainMenu;
-    }
-}
+// void Craps::processKeyPress(KeyPress)
+// {
+//     if (state == State::Result)
+//     {
+//         state = State::mainMenu;
+//     }
+// }
 
 void Craps::tick()
 {
@@ -362,13 +342,13 @@ void Craps::tick()
     {
         // MainMenu..
     }
-    else if (state == State::crabs)
+    else if (state == State::craps)
     {
         dices.draw(CrapsImage);
         // UI...Show..(CrabsImage)
         counter++;
-        if (counter > 100):
-            state = State::Reasult;
+        if (counter > 100)
+            state = State::result;
         else if (state == State::result)
         {
             // rysuje i robie show result

@@ -71,7 +71,8 @@ public:
     unsigned int diceVal1 = 0; // used for specific player bets eg. if sum -> bet1 is sum, if pair -> bet1 is what of
     unsigned int diceVal2 = 0;
     void setBets(unsigned int bet, unsigned int betType, unsigned int bet1, unsigned int bet2);
-    int giveDices(Dices dices);
+    void giveDices(Dices dices);
+    int result;
 };
 
 enum class State // -> stan -> mainMenu -> setBetMenu -> kostki..
@@ -79,7 +80,8 @@ enum class State // -> stan -> mainMenu -> setBetMenu -> kostki..
     mainMenu,
     setBetMenu,
     craps,
-    exit
+    exit,
+    result
 };
 
 class Craps : public Game
@@ -91,7 +93,7 @@ private:
     // std::vector<CrPlayer *> players;
     CrPlayer crPlayer;
     State state;
-    unsigned int betsCount = 0;
+    int betsCount = 0;
 
 public:
     ImageBuffer CrapsImage;
@@ -107,10 +109,10 @@ public:
     void startNewDeal();
 
     // IO methods
-    void setBets();
+    void setBets(std::string bet);
     void mainMenu();
-    void chooseAction(int a);
-    void draw(); // drows all dices and writes if won
+    void chooseAction(unsigned int a);
+    void tick(); // drows all dices and writes if won
     std::string fakeMenu(std::string message);
     void takeImput(std::string imput, CrPlayer &player);
 };
