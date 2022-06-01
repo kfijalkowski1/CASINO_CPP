@@ -11,6 +11,7 @@
 #include "UserManager/Player/Player.h"
 #include <exception>
 #include <iostream>
+#include <string>
 
 #include <chrono>
 #include <thread>
@@ -70,7 +71,7 @@ public:
     unsigned int diceVal1 = 0; // used for specific player bets eg. if sum -> bet1 is sum, if pair -> bet1 is what of
     unsigned int diceVal2 = 0;
     void setBets(unsigned int bet, unsigned int betType, unsigned int bet1, unsigned int bet2);
-    Score giveDices(Dices dices);
+    int giveDices(Dices dices);
 };
 
 enum class State // -> stan -> mainMenu -> setBetMenu -> kostki..
@@ -90,6 +91,7 @@ private:
     // std::vector<CrPlayer *> players;
     CrPlayer crPlayer;
     State state;
+    unsigned int betsCount = 0;
 
 public:
     ImageBuffer CrapsImage;
@@ -105,6 +107,7 @@ public:
     void startNewDeal();
 
     // IO methods
+    void setBets();
     void mainMenu();
     void chooseAction(int a);
     void draw(); // drows all dices and writes if won
