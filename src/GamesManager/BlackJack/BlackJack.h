@@ -2,12 +2,15 @@
 #include "GamesManager/Cards/Cards.h"
 #include "GamesManager/Game/Game.h"
 #include "BJPlayer/BJPlayer.h"
+#include "MainManager/MainManager.h"
 
 enum class State
 {
     mainMenu,
     setBetMenu,
     decisionMenu,
+    animationSlideIn,
+    animationSlideOut,
     result,
     errorBet,
     exit
@@ -19,6 +22,10 @@ private:
     Deck deck;
     State state;
 
+    const static int rowIndex = 10;
+
+    unsigned int counter = 0;
+
     BJPlayer dealer;
     BJPlayer player;
 
@@ -28,6 +35,7 @@ private:
 
 public:
     ImageBuffer img;
+    ImageBuffer img_bck;
     BlackJack(Player &player, unsigned int nOfStdDecks);
 
     void tick();
