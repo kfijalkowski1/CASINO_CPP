@@ -121,17 +121,6 @@ void Dice::draw(ImageBuffer &img, int x, int y)
         (*this).drawTwoInRow(img, pos);
         break;
     }
-    // while (true)
-    // {
-    //     test.show(img);
-
-    //     test.draw();
-    //     std::this_thread::sleep_for(std::chrono::milliseconds(20000));
-    // }
-    // catch (std::exception &e)
-    // {
-    //     std::cout << "Standard exception: " << e.what() << std::endl;
-    // }
 }
 
 bool Dice::operator==(unsigned int const &value) const noexcept
@@ -196,14 +185,6 @@ std::vector<Dice> Dices::getDices()
 }
 
 // METHODES FOR CR PLAYER
-
-// CrPlayer::CrPlayer(Player player)
-// {
-//     name = player.name;
-//     id = player.id;
-//     password = player.password;
-//     cash = player.cash;
-// }
 
 void CrPlayer::setBets(unsigned int bet, unsigned int betType, unsigned int bet1, unsigned int bet2)
 {
