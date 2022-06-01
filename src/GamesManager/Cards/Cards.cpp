@@ -5,46 +5,52 @@
 
 std::map<std::string, unsigned int> suit_to_i = {{"Clubs", 0}, {"Diamonds", 1}, {"Hearts", 2}, {"Spades", 3}};
 std::map<unsigned int, std::string> i_to_suit = {{0, "Clubs"}, {1, "Diamonds"}, {2, "Hearts"}, {3, "Spades"}};
-std::map<std::string, unsigned int> val_to_i = {
-    {"2", 2},
-    {"3", 3},
-    {"4", 4},
-    {"5", 5},
-    {"6", 6},
-    {"7", 7},
-    {"8", 8},
-    {"9", 9},
-    {"10", 10},
-    {"J", 11},
-    {"Q", 12},
-    {"K", 13},
-    {"A", 14}};
-std::map<unsigned int, std::string> i_to_val = {
-    {2, "2"},
-    {3, "3"},
-    {4, "4"},
-    {5, "5"},
-    {6, "6"},
-    {7, "7"},
-    {8, "8"},
-    {9, "9"},
-    {10, "10"},
-    {11, "J"},
-    {12, "Q"},
-    {13, "K"},
-    {14, "A"}};
-
+// std::map<unsigned int, std::string> i_to_symbol = {{0, "♣"}, {1, "♦"}, {2, "♥"}, {3, "♠"}};
+std::map<unsigned int, char> i_to_symbol = {{0, '!'}, {1, '@'}, {2, '#'}, {3, '$'}};
+std::map<char, unsigned int> val_to_i = {
+    {'2', 2},
+    {'3', 3},
+    {'4', 4},
+    {'5', 5},
+    {'6', 6},
+    {'7', 7},
+    {'8', 8},
+    {'9', 9},
+    {'1', 10},
+    {'J', 11},
+    {'Q', 12},
+    {'K', 13},
+    {'A', 14}};
+std::map<unsigned int, char> i_to_val = {
+    {2, '2'},
+    {3, '3'},
+    {4, '4'},
+    {5, '5'},
+    {6, '6'},
+    {7, '7'},
+    {8, '8'},
+    {9, '9'},
+    {10, '1'},
+    {11, 'J'},
+    {12, 'Q'},
+    {13, 'K'},
+    {14, 'A'}};
+Color Card::bck_color = Color::Intensive(7);
+Color Card::red = Color::RGB(5, 0, 0);
+Color Card::black = Color::Grayscale(0);
+Color Card::gray = Color::Grayscale(15);
 Card::Card(unsigned int number, unsigned int suit)
 {
     this->number = number;
     this->suit = suit;
 }
-Card::Card(std::string number, std::string suit)
+Card::Card(char number, std::string suit)
 {
 
     this->number = val_to_i[number];
     this->suit = suit_to_i[suit];
 }
+/*
 Card::Card(std::string representation)
 {
     std::string temp_v, temp_s;
@@ -61,11 +67,12 @@ Card::Card(std::string representation)
     this->number = val_to_i[temp_v];
     this->suit = suit_to_i[temp_s];
 }
+*/
 unsigned int Card::getNumber() const
 {
     return number;
 }
-std::string Card::getNumber_str() const
+char Card::getNumber_str() const
 {
     return i_to_val[number];
 }
@@ -81,23 +88,28 @@ std::string Card::to_string() const
 {
     return (i_to_val[number] + i_to_suit[suit]);
 }
+/*
 bool Card::operator==(Card const &other) const
 {
     return (number == other.number && suit == other.suit);
 }
+
 bool Card::operator==(std::string const cardRep) const
 {
     Card temp(cardRep);
     return (*this) == temp;
 }
+
 bool Card::operator!=(Card const &other) const
 {
     return !((*this) == other);
 }
+
 bool Card::operator!=(std::string const cardRep) const
 {
     return !((*this) == cardRep);
 }
+*/
 Deck::Deck()
 {
     cards = generateStdDeck();
@@ -109,7 +121,7 @@ Deck::Deck(unsigned int nOfStdDecks)
     {
         for (int v = 2; v < 15; v++)
         {
-            Card card(v, s);
+            Card card((unsigned int)v, (unsigned int)s);
             for (unsigned int i = nOfStdDecks; i < 0; i--)
             {
                 DeckInOrder.push_back(card);
@@ -125,7 +137,7 @@ std::vector<Card> Deck::generateStdDeck()
     {
         for (int v = 2; v < 15; v++)
         {
-            stdDeckInOrder.push_back(Card(v, s));
+            stdDeckInOrder.push_back(Card((unsigned int)v, (unsigned int)s));
         }
     }
     return stdDeckInOrder;
@@ -152,6 +164,7 @@ void Deck::addToUsed(std::vector<Card> &recentlyUsedCards)
 {
     usedCards.insert(usedCards.end(), recentlyUsedCards.begin(), recentlyUsedCards.end());
 }
+/*
 bool Deck::operator==(Deck const &other) const
 {
     return (cards == other.cards && usedCards == other.usedCards);
@@ -160,6 +173,8 @@ bool Deck::operator==(std::vector<Card> const &other) const
 {
     return cards == other;
 }
+*/
+/*
 bool Deck::operator==(std::vector<std::string> const &other) const
 {
     for (int i = 0; i < getNofCards(); i++)
@@ -181,6 +196,7 @@ bool Deck::operator!=(std::vector<std::string> const &other) const
 {
     return !((*this) == other);
 }
+*/
 void Deck::shuffle()
 {
     int random_number1 = std::experimental::randint(0, (int)getNofCards());
@@ -198,3 +214,60 @@ bool Deck::checkIfEnough()
 {
     return (cards.size() > 50);
 }
+void Card::draw(ImageBuffer &img, Position pos) // pos of top left corner of such card
+{
+    draw_frame(img, pos);
+    for (int y = 0; y < 3; y++)
+    {
+        for (int x = 0; x < 3; x++)
+        {
+            char c = sprites[number - 2][y][x][0];
+            img.setPixel(Position(x + pos.x + 1, y + pos.y + 1), c, getColor(), Card::gray);
+        }
+    }
+}
+
+void Card::draw_frame(ImageBuffer &img, Position pos)
+{
+    for (int y = 0; y < 5; y++)
+    {
+        for (int x = 0; x < 5; x++)
+        {
+            img.setPixel(Position(x + pos.x, y + pos.y), ' ', getColor(), Card::bck_color);
+        }
+    }
+    img.setPixel(pos, i_to_val[number]);
+    img.setPixel(pos + Position(0, 1), i_to_symbol[suit]);
+    img.setPixel(pos + Position(4, 3), i_to_symbol[suit]);
+    img.setPixel(pos + Position(4, 4), i_to_val[number]);
+}
+Color &Card::getColor()
+{
+    if (suit == 0 || suit == 3)
+    {
+        return Card::black;
+    }
+    else
+        return Card::red;
+}
+
+std::vector<std::vector<std::vector<std::string>>> Card::sprites =
+    {
+        {{" ", " ", " "}, // 2
+         {" ", " ", " "},
+         {" ", " ", " "}},
+        {{"A", "B", "C"}, // 3
+         {"A", "B", "C"},
+         {"A", "B", "C"}},
+        {{"A", "B", "C"}, // 4
+         {"A", "B", "C"},
+         {"A", "B", "C"}},
+        {{"A", "B", "C"},
+         {"A", "B", "C"},
+         {"A", "B", "C"}},
+        {{"A", "B", "C"},
+         {"A", "B", "C"},
+         {"A", "B", "C"}},
+        {{"A", "B", "C"},
+         {"A", "B", "C"},
+         {"A", "B", "C"}}};
