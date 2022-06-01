@@ -3,7 +3,7 @@
 
 unsigned int ImageBuffer::width = 0, ImageBuffer::height = 0;
 ImageBuffer::ImageBuffer()
-    : characters(width, std::vector<char>(height, ' ')),
+    : characters(width, std::vector<char32_t>(height, ' ')),
       colors(width, std::vector<Color>(height, Color::Default)),
       backgrounds(width, std::vector<Color>(height, Color::DefaultBackground))
 {
@@ -14,18 +14,18 @@ void ImageBuffer::setSize(unsigned int width, unsigned int height)
     ImageBuffer::height = height;
 }
 
-void ImageBuffer::setPixel(Position pos, char character)
+void ImageBuffer::setPixel(Position pos, char32_t character)
 {
     if (pos.x >= width || pos.y >= height)
         throw InvalidPositionException();
     characters[pos.x][pos.y] = character;
 }
-void ImageBuffer::setPixel(Position pos, char character, Color color)
+void ImageBuffer::setPixel(Position pos, char32_t character, Color color)
 {
     setPixel(pos, character);
     setColor(pos, color);
 }
-void ImageBuffer::setPixel(Position pos, char character, Color color,
+void ImageBuffer::setPixel(Position pos, char32_t character, Color color,
                            Color background)
 {
     setPixel(pos, character);
