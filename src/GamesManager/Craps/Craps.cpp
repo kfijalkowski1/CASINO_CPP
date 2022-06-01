@@ -186,13 +186,13 @@ std::vector<Dice> Dices::getDices()
 
 // METHODES FOR CR PLAYER
 
-void CrPlayer::setBets(unsigned int bet, unsigned int betType, unsigned int bet1, unsigned int bet2)
-{
-    this->bet = bet;
-    this->betType = betType;
-    this->diceVal1 = bet1;
-    this->diceVal2 = bet2;
-}
+// static void CrPlayer::setBets(unsigned int bet, unsigned int betType, unsigned int bet1, unsigned int bet2)
+// {
+//     this->bet = bet;
+//     this->betType = betType;
+//     this->diceVal1 = bet1;
+//     this->diceVal2 = bet2;
+// }
 void CrPlayer::giveDices(Dices dices)
 {
     Score resultScore;
@@ -234,7 +234,8 @@ void CrPlayer::giveDices(Dices dices)
 void Craps::drawResult()
 {
     Position pos(20, 20);
-    crPlayer.giveDices();
+    crPlayer.giveDices(dices);
+    std::string mess;
     if (crPlayer.result < 0)
     {
         std::string mess = "You lost: ";
@@ -243,11 +244,14 @@ void Craps::drawResult()
     {
         std::string mess = "You won: ";
     }
-    mess += to_string(crPlayer.result);
+    mess += std::to_string(crPlayer.result);
     mess += " coins";
     CrapsImage.writeText(pos, mess);
 }
-
+Craps::Craps(Player *player)
+{
+    crPlayer.playerPtr = player;
+}
 void Craps::addPlayer(Player *newPlayer)
 {
     crPlayer.playerPtr = newPlayer;
@@ -359,12 +363,13 @@ void Craps::tick()
         if (counter > 100)
         {
             counter = 0;
+            drawResult();
             state = State::result;
         }
     }
     else if (state == State::result)
     {
-        drawResult();
+        mainManager.graphicsManager.show(CrapsImage);
     }
     else if (state == State::exit)
     {

@@ -102,7 +102,7 @@ public:
     ImageBuffer CrapsImage;
     Craps(std::vector<CrPlayer> players);
     Craps(std::vector<Player> players);
-    // Craps(Player player) { players.push_back(*player); };
+    Craps(Player *player);
     Craps(){};
 
     // Logic methods
