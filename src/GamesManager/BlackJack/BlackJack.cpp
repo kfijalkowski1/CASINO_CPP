@@ -1,6 +1,8 @@
 #include "BlackJack.h"
 #include <iostream>
 
+#include <string>
+
 BlackJack::BlackJack(Player &player, unsigned int nOfStdDecks)
 {
     BJPlayer temp(player);
@@ -52,13 +54,13 @@ void BlackJack::tick()
     switch (state)
     {
     case State::mainMenu:
-        // MainMenu.UIMenu(processMainMenu);
+        // mainManager.addUIController(new SelectionMenu(processMainMenu, Box(0, 0, 80, 24), {U"Play", U"Quit"}, U"BlackJack"));
         break;
     case State::setBetMenu:
-        // MainMenu.UIMenu(processBet);
+        // mainManager.addUIController(new TextInputMenu(processBet, Box(10, 0, 70, 24), U"Enter your bet"));
         break;
     case State::decisionMenu:
-        // MainMenu.UIMenu(processDecision);
+        // mainManager.addUIController(new SelectionMenu(processDecision, Box(0, 0, 80, 24), {U"Hit", U"Stand"}, U"What do you do?"));
         break;
     case State::animationSlideIn:
         if (counter > rowIndex)
@@ -89,18 +91,47 @@ void BlackJack::tick()
             counter++;
         }
         else
+        {
             state = State::result;
+            counter = 0;
+        }
     case State::result:
-        // MainMenu.UIMenu(resultPopUp);
+        // int score = calculateScore();
+        //  how to convert int to vector<u32_string>;
+        //  mainManager.addUIController(new SelectionMenu(processKeyPress, Box(0, 0, 80, 24), {U"Quit"}, U"Variable with your score"));
         break;
     case State::errorBet:
         // MainMenu.UIMenu(ErrorPopUp);
         break;
     case State::exit:
         mainManager.removeUIController();
-
         break;
     default:
         break;
+    }
+}
+
+int BlackJack::calculateScore()
+{
+    int score;
+    int points = player.hand.getPoints();
+    if (points > 21)
+    {
+        score = 0;
+    }
+    else if (points == 21)
+    {
+        score = player.bet * 3 / 2;
+    }
+    else
+        score = player.bet;
+    return score;
+}
+
+void BlackJack::processKeyPress()
+{
+    if (state == State::result)
+    {
+        state = State::mainMenu;
     }
 }

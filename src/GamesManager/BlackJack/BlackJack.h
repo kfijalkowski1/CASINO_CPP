@@ -32,6 +32,9 @@ private:
     void processDecision(unsigned int dec);
     void processMainMenu(unsigned int dec);
     void processBet(std::string bet);
+    void processKeyPress();
+
+    int calculateScore();
 
 public:
     ImageBuffer img;
