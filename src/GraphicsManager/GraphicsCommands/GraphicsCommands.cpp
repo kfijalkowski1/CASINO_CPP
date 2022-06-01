@@ -1,5 +1,7 @@
 #include "GraphicsManager/GraphicsCommands/GraphicsCommands.h"
+#include <codecvt>
 #include <iostream>
+#include <locale>
 
 std::string GraphicsCommands::SequencePrefix = "\x1b[";
 void GraphicsCommands::eraseDisplay() { std::cout << SequencePrefix << "2J"; }
@@ -22,3 +24,18 @@ void GraphicsCommands::moveCursor(unsigned int x, unsigned int y)
 
     // std::cout << SequencePrefix << y + 1 << ':' << x + 1 << 'H';
 };
+
+// https://stackoverflow.com/a/56341756
+std::string GraphicsCommands::codepointToUTF8(char32_t codepoint)
+{
+    static std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> convert;
+    return convert.to_bytes(&codepoint, &codepoint + 1);
+}
+
+void GraphicsCommands::printCharacter(char32_t character)
+{
+    std::cout << codepointToUTF8(character);
+}
+
+void GraphicsCommands::showCursor() { std::cout << SequencePrefix << "?25h"; }
+void GraphicsCommands::hideCursor() { std::cout << SequencePrefix << "?25l"; }

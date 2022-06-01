@@ -5,13 +5,14 @@
 
 GraphicsManager::GraphicsManager(unsigned int width, unsigned int height)
 {
-    GraphicsCommands::eraseDisplay();
     ImageBuffer::setSize(width, height);
 
     currentBuffer = ImageBuffer();
     startX = 0;
     startY = 0;
 }
+
+void GraphicsManager::init() { GraphicsCommands::eraseDisplay(); }
 
 void GraphicsManager::draw()
 {
@@ -27,7 +28,7 @@ void GraphicsManager::draw()
         {
             Color &color = currentBuffer.colors[x][y];
             Color &background = currentBuffer.backgrounds[x][y];
-            char character = currentBuffer.characters[x][y];
+            char32_t character = currentBuffer.characters[x][y];
             if (prevColor != color)
             {
                 GraphicsCommands::setColor(color);
@@ -39,7 +40,7 @@ void GraphicsManager::draw()
                 prevBackround = background;
             }
 
-            std::cout << character;
+            GraphicsCommands::printCharacter(character);
         }
         GraphicsCommands::setColor(Color::Default);
         GraphicsCommands::setBackground(Color::DefaultBackground);

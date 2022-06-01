@@ -14,7 +14,8 @@ public:
 
   ImageBuffer currentBuffer;
 
+  void init();
+  void draw();
   void show(ImageBuffer newBuffer);
   void clear();
-  void draw();
 };
