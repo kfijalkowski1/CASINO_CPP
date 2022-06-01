@@ -64,7 +64,7 @@ void Dice::drawRightRow(ImageBuffer &image, Position pos)
 
 void Dice::drawDot(ImageBuffer &image, Position pos)
 {
-    image.setPixel(pos, '*', Color::RGB(1, 2, 3), Color::RGB(5, 5, 5));
+    image.setPixel(pos, U'⦿', Color::RGB(1, 2, 3), Color::RGB(5, 5, 5));
 }
 
 void Dice::drawSpace(ImageBuffer &image, Position pos)
@@ -233,8 +233,19 @@ void CrPlayer::giveDices(Dices dices)
 
 void Craps::drawResult()
 {
-    Position pos(10, 10);
-    CrapsImage.writeText(pos, "YOU LOST HAHAHAHAHAHAHAH");
+    Position pos(20, 20);
+    crPlayer.giveDices();
+    if (crPlayer.result < 0)
+    {
+        std::string mess = "You lost: ";
+    }
+    else
+    {
+        std::string mess = "You won: ";
+    }
+    mess += to_string(crPlayer.result);
+    mess += " coins";
+    CrapsImage.writeText(pos, mess);
 }
 
 void Craps::addPlayer(Player *newPlayer)
@@ -244,22 +255,23 @@ void Craps::addPlayer(Player *newPlayer)
 
 void Craps::chooseAction(unsigned int a)
 {
-    // UI..kill..yrs
+    mainManager.removeUIController();
     if (a == 0)
     {
         state = State::setBetMenu;
-        // SecondMenu.........(SetBet1)
+        mainManager.addUIController(new TextInputMenu(
+            setBets, Box(10, 0, 70, 24), U"Enter bet amount(cash): "));
     }
     else
     {
         state = State::exit;
-        // UI..kill..yrs
+        mainManager.removeUIController();
     }
 }
 
 void Craps::setBets(std::string bet)
 {
-    // UI..kill
+    mainManager.removeUIController();
     int betNum;
     switch (betsCount)
     {
@@ -267,7 +279,8 @@ void Craps::setBets(std::string bet)
         betNum = stoi(bet);
         crPlayer.bet = betNum;
         betsCount++;
-        // SecondMenu(setBets, "Enter bet type(1->sum, 2->pair, 3->specific): ")
+        mainManager.addUIController(new TextInputMenu(
+            setBets, Box(10, 0, 70, 24), U"Enter bet type(1->sum, 2->pair, 3->specific)): "));
         break;
     case 1:
         betNum = stoi(bet);
@@ -275,15 +288,18 @@ void Craps::setBets(std::string bet)
         betsCount++;
         if (crPlayer.betType == 1)
         {
-            // SecondMenu(setBets, "Enter sum value: ")
+            mainManager.addUIController(new TextInputMenu(
+                setBets, Box(10, 0, 70, 24), U"Enter sum value: "));
         }
         if (crPlayer.betType == 2)
         {
-            // SecondMenu(setBets, "Enter one dice value: ")
+            mainManager.addUIController(new TextInputMenu(
+                setBets, Box(10, 0, 70, 24), U"Enter one dice value: "));
         }
         if (crPlayer.betType == 3)
         {
-            // SecondMenu(setBets, "Enter one dice num,second dice num: ")
+            mainManager.addUIController(new TextInputMenu(
+                setBets, Box(10, 0, 70, 24), U"Enter one dice num,second dice num: "));
         }
         break;
     case 2:
@@ -306,43 +322,52 @@ void Craps::setBets(std::string bet)
             break;
         }
     }
-    // UI..kil..
-    dices.roll();
-    crPlayer.giveDices(dices);
+    mainManager.removeUIController();
     state = State::craps;
     //  Secon(SetBet2) -> cout setów -> startRolls -> ustawiam state na Crabs -> wybieram kosci -> zabieram/ daje monety
 }
 
-// void Craps::processKeyPress(KeyPress)
-// {
-//     if (state == State::Result)
-//     {
-//         state = State::mainMenu;
-//     }
-// }
+void Craps::processKeyPress(KeyPress)
+{
+    if (state == State::Result)
+    {
+        state = State::mainMenu;
+    }
+}
 
 void Craps::tick()
 {
     if (state == State::mainMenu)
     {
-        // MainMenu...(chooseAction)     // globalne menu, choose action doatanie int
+        mainManager.addUIController(new SelectionMenu(
+            chooseAction, Box(0, 0, 80, 24), {U"Play crabes", U"Quit"}, U"Crabes")); // globalne menu, choose action doatanie int
     }
     else if (state == State::setBetMenu)
     {
-        // MainMenu..
+        // MainMenu.. this lines are never gonna be in
     }
     else if (state == State::craps)
     {
+        while (counter < 80)
+        {
+            dices.roll();
+            dices.draw(CrapsImage);
+        }
         dices.draw(CrapsImage);
-        // UI...Show..(CrabsImage)
+        mainManager.graphicsManager.show(CrapsImage);
         counter++;
         if (counter > 100)
         {
-            state = State::result
+            counter = 0;
+            state = State::result;
         }
     }
     else if (state == State::result)
     {
-        // rysuje i robie show result
+        drawResult();
+    }
+    else if (state == State::exit)
+    {
+        mainManager.removeUIController();
     }
 }

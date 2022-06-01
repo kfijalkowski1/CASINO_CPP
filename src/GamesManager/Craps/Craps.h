@@ -9,6 +9,9 @@
 #include "UserManager/Player/Player.h"
 #include "GraphicsManager/GraphicsManager.h"
 #include "UserManager/Player/Player.h"
+#include "MainManager/MainManager.h"
+#include "UIController/SelectionMenu/SelectionMenu.h"
+#include "UIController/TextInputMenu/TextInputMenu.h"
 #include <exception>
 #include <iostream>
 #include <string>
@@ -88,7 +91,7 @@ class Craps : public Game
 {
 private:
     unsigned int gameId = 444;
-    unsigned int counter;
+    unsigned int counter = 0;
     Dices dices;
     // std::vector<CrPlayer *> players;
     CrPlayer crPlayer;
@@ -109,6 +112,7 @@ public:
     void startNewDeal();
 
     // IO methods
+    void drawResult();
     void setBets(std::string bet);
     void mainMenu();
     void chooseAction(unsigned int a);
