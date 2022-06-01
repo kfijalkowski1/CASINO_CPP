@@ -312,37 +312,40 @@ void Craps::setBets(std::string bet)
         }
         break;
     case 2:
+        state = State::craps;
         if (crPlayer.betType == 3)
         {
             std::size_t pos = bet.find(","); // position of "live" in str
             ++pos;
             crPlayer.diceVal2 = stoi(bet.substr(pos));
             crPlayer.diceVal1 = stoi(bet.substr(0, pos));
+            state = State::craps;
             break;
         }
-        if (crPlayer.betType == 2)
+        else if (crPlayer.betType == 2)
         {
             crPlayer.diceVal1 = stoi(bet) / 2;
+            state = State::craps;
             break;
         }
-        if (crPlayer.betType == 1)
+        else if (crPlayer.betType == 1)
         {
             crPlayer.diceVal1 = stoi(bet);
+            state = State::craps;
             break;
         }
     }
-    mainManager.removeUIController();
-    state = State::craps;
+
     //  Secon(SetBet2) -> cout setów -> startRolls -> ustawiam state na Crabs -> wybieram kosci -> zabieram/ daje monety
 }
 
-// void Craps::processKeyPress(Keypress)
-// {
-//     if (state == State::Result)
-//     {
-//         state = State::mainMenu;
-//     }
-// }
+void Craps::processKeypress(Keypress)
+{
+    if (state == State::result)
+    {
+        state = State::mainMenu;
+    }
+}
 
 void Craps::tick()
 {
@@ -358,10 +361,9 @@ void Craps::tick()
     }
     else if (state == State::craps)
     {
-        while (counter < 80)
+        if (counter < 80)
         {
             dices.roll();
-            dices.draw(CrapsImage);
         }
         dices.draw(CrapsImage);
         mainManager.graphicsManager.show(CrapsImage);

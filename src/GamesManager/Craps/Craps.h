@@ -112,6 +112,7 @@ public:
     void startNewDeal();
 
     // IO methods
+    void processKeypress(Keypress);
     void drawResult();
     void setBets(std::string bet);
     void mainMenu();

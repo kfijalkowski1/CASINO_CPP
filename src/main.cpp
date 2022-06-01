@@ -3,6 +3,7 @@
 #include "UIController/SelectionMenu/SelectionMenu.h"
 #include "UIController/TextInputMenu/TextInputMenu.h"
 #include "GamesManager/Craps/Craps.h"
+#include "InputManager/Keypress/Keypress.h"
 #include <exception>
 #include <iostream>
 
@@ -41,8 +42,12 @@ public:
 int main()
 {
     Test t;
-
-    Craps *crGame = new Craps;
+    Player *jacekPlacek = new Player();
+    jacekPlacek->cash = 2000000;
+    jacekPlacek->name = "jacek";
+    jacekPlacek->id = 124;
+    jacekPlacek->password = "fsa";
+    Craps *crGame = new Craps(jacekPlacek);
 
     mainManager.init();
     mainManager.addUIController(new UIController());
