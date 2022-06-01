@@ -61,7 +61,8 @@ void ImageBuffer::writeText(Position pos, std::u32string text)
         pos += Position(1, 0);
     }
 }
-void ImageBuffer::writeText(Box space, std::u32string text, TextAlignment align)
+Position ImageBuffer::writeText(Box space, std::u32string text,
+                                TextAlignment align)
 {
     int width = space.bottomRight.x - space.topLeft.x;
     int freeSpace = width - text.length();
@@ -77,16 +78,18 @@ void ImageBuffer::writeText(Box space, std::u32string text, TextAlignment align)
         break;
     }
     writeText(textPos, text);
+    return textPos;
 }
 void ImageBuffer::writeText(Position pos, std::string text)
 {
     std::u32string converted(text.begin(), text.end());
     writeText(pos, converted);
 }
-void ImageBuffer::writeText(Box space, std::string text, TextAlignment align)
+Position ImageBuffer::writeText(Box space, std::string text,
+                                TextAlignment align)
 {
     std::u32string converted(text.begin(), text.end());
-    writeText(space, converted, align);
+    return writeText(space, converted, align);
 }
 
 void ImageBuffer::drawBoxCharacter(Box box, char32_t character)

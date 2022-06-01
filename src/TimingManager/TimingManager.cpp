@@ -1,5 +1,6 @@
 #include "TimingManager.h"
 #include "GraphicsManager/GraphicsCommands/GraphicsCommands.h"
+#include "GraphicsManager/ImageBuffer/ImageBuffer.h"
 #include <iomanip>
 #include <iostream>
 #include <thread>
@@ -34,13 +35,13 @@ void TimingManager::tick()
 }
 void TimingManager::printStats()
 {
-    GraphicsCommands::moveCursor(81, 1);
+    GraphicsCommands::moveCursor(ImageBuffer::width + 1, 1);
     std::cout << std::setw(9) << std::setprecision(3) << std::fixed
               << (double)averageFrameTime.count() / 1000 << "ms";
 
     double utilization = 100.0 * ((double)averageFrameTime.count() /
                                   (double)tickLength().count());
-    GraphicsCommands::moveCursor(81, 2);
+    GraphicsCommands::moveCursor(ImageBuffer::width + 1, 2);
     std::cout << std::setw(10) << std::setprecision(3) << std::fixed
               << utilization << '%';
 }

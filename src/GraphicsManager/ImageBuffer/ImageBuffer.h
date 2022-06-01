@@ -12,7 +12,6 @@ class ImageBuffer
     std::vector<std::vector<Color>> colors;
     std::vector<std::vector<Color>> backgrounds;
 
-    static unsigned int width, height;
     static void setSize(unsigned int width, unsigned int height);
     friend class GraphicsManager;
 
@@ -25,6 +24,8 @@ class ImageBuffer
     };
     ImageBuffer();
 
+    static unsigned int width, height;
+
     void setPixel(Position pos, char32_t character);
     void setPixel(Position pos, char32_t character, Color color);
     void setPixel(Position pos, char32_t character, Color color,
@@ -34,8 +35,8 @@ class ImageBuffer
 
     void writeText(Position pos, std::string text);
     void writeText(Position pos, std::u32string text);
-    void writeText(Box space, std::string text, TextAlignment align);
-    void writeText(Box space, std::u32string text, TextAlignment align);
+    Position writeText(Box space, std::string text, TextAlignment align);
+    Position writeText(Box space, std::u32string text, TextAlignment align);
 
     void drawBoxCharacter(Box box, char32_t character);
     void drawBoxColor(Box box, Color color);

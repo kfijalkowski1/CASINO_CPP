@@ -13,7 +13,11 @@ void MainManager::init()
     inputManager.init();
 }
 
-void MainManager::cleanup() { GraphicsCommands::showCursor(); }
+void MainManager::cleanup()
+{
+    GraphicsCommands::showCursor();
+    GraphicsCommands::moveCursor(ImageBuffer::width, ImageBuffer::height - 1);
+}
 
 bool MainManager::tick()
 {
