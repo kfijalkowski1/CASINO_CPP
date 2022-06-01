@@ -36,3 +36,6 @@ void GraphicsCommands::printCharacter(char32_t character)
 {
     std::cout << codepointToUTF8(character);
 }
+
+void GraphicsCommands::showCursor() { std::cout << SequencePrefix << "?25h"; }
+void GraphicsCommands::hideCursor() { std::cout << SequencePrefix << "?25l"; }

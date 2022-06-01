@@ -5,13 +5,14 @@
 
 GraphicsManager::GraphicsManager(unsigned int width, unsigned int height)
 {
-    GraphicsCommands::eraseDisplay();
     ImageBuffer::setSize(width, height);
 
     currentBuffer = ImageBuffer();
     startX = 0;
     startY = 0;
 }
+
+void GraphicsManager::init() { GraphicsCommands::eraseDisplay(); }
 
 void GraphicsManager::draw()
 {

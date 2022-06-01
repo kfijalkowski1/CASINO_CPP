@@ -1,6 +1,6 @@
 #include "Position.h"
 
-Position::Position(unsigned int x, unsigned int y) : x(x), y(y) {}
+Position::Position(int x, int y) : x(x), y(y) {}
 
 Position Position::operator+(const Position &that) const
 {
