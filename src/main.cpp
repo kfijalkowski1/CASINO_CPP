@@ -3,58 +3,54 @@
 #include "UserManager/Player/Player.h"
 #include <exception>
 #include <iostream>
-
+#include <stdio.h> //
 #include <chrono>
 #include <thread>
+#include <GamesManager/Cards/Cards.h>
+#include <GamesManager/BlackJack/BlackJack.h>
 
 int main()
 {
-    using namespace std::this_thread; // sleep_for, sleep_until
-    using namespace std::chrono;      // nanoseconds, system_clock, seconds
+    // using namespace std::this_thread; // sleep_for, sleep_until
+    // using namespace std::chrono;      // nanoseconds, system_clock, seconds
+
     try
     {
-        /*
-        CSVfile<Player> test("../data/players.csv");
-        //
-        Player row = test[1];
-        std::cout << row.id << ' ' << row.name << ' ' << std::endl;
-        for (auto row : test)
-        {
-            std::cout << row.id << ' ' << row.name << ' ' << row.cash
-                      << std::endl;
-        }
-        auto newPlayer = Player();
-        newPlayer.cash = 100000;
-        newPlayer.id = 10;
-        newPlayer.name = "Tester";
-        newPlayer.password = "123";
-        test.push_back(newPlayer);
-
-        test.save();
-        */
-        GraphicsManager test(80, 24);
+        GraphicsManager grafika(80, 24);
         ImageBuffer image;
-        image.setPixel(Position(0, 0), 'a');
-        image.setPixel(Position(1, 1), 'b');
-        image.setPixel(Position(2, 2), 'c');
-        image.setPixel(Position(3, 3), 'd');
-        image.setBackground(Position(3, 3), Color::RGB(2, 3, 4));
-        image.setColor(Position(5, 5), Color::Grayscale(10));
-        image.setPixel(Position(5, 5), '*');
-
         ImageBuffer background = image;
 
+        Player Jacek;
+        Jacek.name = "Jacek";
+        Jacek.id = 1;
+        Jacek.cash = 100000;
+        Jacek.password = "haslo";
+
+        BlackJack game(6);
+        game.addPlayer(&Jacek);
+        Card karta(2, 3);
+
         Position pos = Position(0, 0);
+
+        while (true)
+        {
+            // karta.draw(image, pos);
+            game.startNewDeal();
+            game.draw(image, pos);
+            grafika.show(image);
+            grafika.draw();
+            // sleep_for(nanoseconds(300000000));
+        }
+
+        /*
         int count = 0;
         int direction = 0;
         while (true)
         {
+            // stos
             image = background;
 
-            image.setPixel(pos, '*', Color::RGB(1, 3, 3), Color::RGB(1, 3, 3));
-            image.setColor(pos, Color::RGB(1, 3, 3));
-            image.setBackground(pos, Color::RGB(1, 3, 3));
-
+            karta.draw(image, pos);
             switch (direction)
             {
             case 0:
@@ -79,10 +75,11 @@ int main()
             }
 
             test.show(image);
-
             test.draw();
-            sleep_for(nanoseconds(100000000));
+
+            sleep_for(nanoseconds(300000000));
         }
+        */
     }
     catch (std::exception &e)
     {

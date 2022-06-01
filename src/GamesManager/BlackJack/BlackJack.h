@@ -2,6 +2,12 @@
 #include "GamesManager/Cards/Cards.h"
 #include "GamesManager/Game/Game.h"
 
+class BJState
+{
+public:
+    int stateNumber = 0;
+    int playerIndex = 0;
+};
 class BJHand
 {
 public:
@@ -26,14 +32,28 @@ class BlackJack : public Game
 {
 private:
     std::vector<BJPlayer *> playerBuffor = {};
-    std::vector<BJPlayer *> players;
+
     BJPlayer dealer;
     Deck deck;
-    // int getBet();
+
+    BJState state;
+
+    void hit();
+    void doubleDown();
+    // void split();
 
 public:
+    std::vector<BJPlayer *> players; // private
     BlackJack(unsigned int nOfStdDecks);
     void startNewDeal();
+    ImageBuffer img;
+
+    void choice(int i);
+
+    void startChoice(int i);
+    void BetChoice(int i);
+    void actionChoice(int i);
+
     void addPlayer(Player *player);
     // void initalDistribiution(); // Distribute one card to each player and take bets
     bool makeMove(Player &player, char decision);
@@ -41,11 +61,6 @@ public:
     //  buf 3.reset hands
     // void draw();      // draws current state of game (usually after each move and at
     //  the beggining)
-    void fakeMenu(); // argmenty menu: tj: 1.header 2. opcje 3. align 4. color 5. function callback mainManager.addUIController(menuController)
-};
-class BJState
-{
-public:
-    int stateNumber = 0;
-    // operator++
+    void fakeMenu(); // argmenty menu: tj: 1.header 2. opcje 3. align 4. color 5. function callback(int i) mainManager.addUIController(menuController)
+    void draw(ImageBuffer &img, Position pos);
 };

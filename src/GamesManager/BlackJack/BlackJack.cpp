@@ -34,37 +34,19 @@ BlackJack::BlackJack(unsigned int nOfStdDecks)
 {
     Deck deck1(nOfStdDecks);
     deck = deck1;
-    rules.content = "BlackJack rules:\n - rule1\n - rule2 \n.\n.\n.\n."; // nwm czy tutaj
+    // fakeMenu();
 }
 void BlackJack::startNewDeal()
 {
-    // add all new players to the game
-    players.insert(players.end(), playerBuffor.begin(), playerBuffor.end());
-    // zer
-    //  from this ***
-    if (!(deck.checkIfEnough()))
-    {
-        deck.shuffle(); // Deck is now mixed and all used cards returned to deck
-    }
     dealer.hand.addCard(deck.getCard());
-    // draw and wait
-    for (auto player : players)
-    {
-        (*player).hand.addCard(deck.getCard());
-    }
-    // to this *** is a initialDistribution()
-    for (auto player : players)
-    {
-
-        // player.bet = getBet();
-        //  take bets ? cin?
-    }
+    players[0]->hand.addCard(deck.getCard());
 }
 
 void BlackJack::addPlayer(Player *newPlayer)
 {
     BJPlayer *newBJPlayerPtr = dynamic_cast<BJPlayer *>(newPlayer);
-    playerBuffor.push_back(newBJPlayerPtr);
+    players.push_back(newBJPlayerPtr);
+    // playerBuffor.push_back(newBJPlayerPtr);
 }
 bool BlackJack::makeMove(Player &player, char decision)
 {
@@ -95,5 +77,85 @@ void BlackJack::fakeMenu()
 {
     int dec;
     std::cin >> dec;
-    // nazwafunkcji(dec);
+    choice(dec);
 }
+void BlackJack::startChoice(int dec)
+{
+    switch (dec)
+    {
+    case 0: // add Player
+        /* code */
+        break;
+    case 1: // Play
+        startNewDeal();
+        break;
+    case 2: // exit
+        // mainManager.stack.pop();
+        break;
+    default:
+        break;
+    }
+}
+void BlackJack::choice(int i)
+{
+    switch (state.stateNumber)
+    {
+    case 0:
+        startChoice(i);
+        break;
+    case 1:
+        BetChoice(i);
+        break;
+    case 2:
+        actionChoice(i);
+        break;
+    default:
+
+        break;
+    }
+}
+void BlackJack::BetChoice(int i)
+{
+    players[state.playerIndex]->bet += i;
+    state.stateNumber = 2;
+    fakeMenu();
+}
+void BlackJack::actionChoice(int i)
+{
+    switch (i)
+    {
+    case 0: // Hit
+        hit();
+        break;
+    case 1: // Stand
+        state.playerIndex += 1;
+        break;
+    case 2: // DoubleDown
+        doubleDown();
+        break;
+    // case 3: // Split
+    //     split();
+    //     break;
+    default:
+        break;
+    }
+    fakeMenu();
+}
+void BlackJack::hit()
+{
+    (*players[state.playerIndex]).hand.hands[0].push_back(deck.getCard());
+    // if((*players[state.playerIndex]).hand.getPoints(false)> 21); should check if greater than 21
+}
+void BlackJack::doubleDown()
+{
+    (*players[state.playerIndex]).bet *= 2;
+    hit();
+}
+void BlackJack::draw(ImageBuffer &img, Position pos)
+{
+    // ImageBuffer temp = this->img;
+    dealer.hand.hands[0][0].draw(img, pos);
+    players[0]->hand.hands[0][0].draw(img, pos + Position(0, 7));
+    // img = temp;
+}
+// void BlackJack::split() {}

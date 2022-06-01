@@ -58,6 +58,7 @@ private:
 public:
     Deck();
     Deck(unsigned int nOfStdDecks);
+
     // Deck(bool withJoker, unsigned int nOfStdDecks);
     // Deck(std::vector<Card>);
     bool checkIfEnough();
