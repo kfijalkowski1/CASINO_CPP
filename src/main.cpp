@@ -11,46 +11,24 @@
 
 int main()
 {
-    // using namespace std::this_thread; // sleep_for, sleep_until
-    // using namespace std::chrono;      // nanoseconds, system_clock, seconds
+    using namespace std::this_thread; // sleep_for, sleep_until
+    using namespace std::chrono;      // nanoseconds, system_clock, seconds
 
     try
     {
-        GraphicsManager grafika(80, 24);
+        GraphicsManager test(80, 24);
         ImageBuffer image;
         ImageBuffer background = image;
 
-        Player Jacek;
-        Jacek.name = "Jacek";
-        Jacek.id = 1;
-        Jacek.cash = 100000;
-        Jacek.password = "haslo";
-
-        BlackJack game(6);
-        game.addPlayer(&Jacek);
-        Card karta(2, 3);
-
         Position pos = Position(0, 0);
 
-        while (true)
-        {
-            // karta.draw(image, pos);
-            game.startNewDeal();
-            game.draw(image, pos);
-            grafika.show(image);
-            grafika.draw();
-            // sleep_for(nanoseconds(300000000));
-        }
-
-        /*
         int count = 0;
         int direction = 0;
         while (true)
         {
-            // stos
             image = background;
+            char32_t a = U'❤';
 
-            karta.draw(image, pos);
             switch (direction)
             {
             case 0:
@@ -79,7 +57,6 @@ int main()
 
             sleep_for(nanoseconds(300000000));
         }
-        */
     }
     catch (std::exception &e)
     {
