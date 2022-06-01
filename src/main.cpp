@@ -26,12 +26,26 @@ void mainAction(int selection)
     }
 }
 
+class Test
+{
+  public:
+    int result = 0;
+    void testing(int selection)
+    {
+        result = selection;
+        mainManager.removeUIController();
+    }
+};
+
 int main()
 {
+    Test t;
+
     mainManager.init();
     mainManager.addUIController(new UIController());
-    mainManager.addUIController(new SelectionMenu(
-        mainAction, Box(0, 0, 80, 24), {U"Play", U"Quit"}, U"Casino.o"));
+    mainManager.addUIController(
+        new SelectionMenu(std::bind(&Test::testing, &t, std::placeholders::_1),
+                          Box(0, 0, 80, 24), {U"Play", U"Quit"}, U"Casino.o"));
 
     try
     {
@@ -47,4 +61,5 @@ int main()
     }
 
     mainManager.cleanup();
+    std::cout << t.result;
 }
