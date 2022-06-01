@@ -122,7 +122,7 @@ Deck::Deck(unsigned int nOfStdDecks)
         for (int v = 2; v < 15; v++)
         {
             Card card((unsigned int)v, (unsigned int)s);
-            for (unsigned int i = nOfStdDecks; i < 0; i--)
+            for (unsigned int i = nOfStdDecks; i > 0; i--)
             {
                 DeckInOrder.push_back(card);
             }
@@ -164,46 +164,14 @@ void Deck::addToUsed(std::vector<Card> &recentlyUsedCards)
 {
     usedCards.insert(usedCards.end(), recentlyUsedCards.begin(), recentlyUsedCards.end());
 }
-/*
-bool Deck::operator==(Deck const &other) const
-{
-    return (cards == other.cards && usedCards == other.usedCards);
-}
-bool Deck::operator==(std::vector<Card> const &other) const
-{
-    return cards == other;
-}
-*/
-/*
-bool Deck::operator==(std::vector<std::string> const &other) const
-{
-    for (int i = 0; i < getNofCards(); i++)
-    {
-        if (cards[i] != other[i])
-            return false;
-    }
-    return true;
-}
-bool Deck::operator!=(Deck const &other) const
-{
-    return !((*this) == other);
-}
-bool Deck::operator!=(std::vector<Card> const &other) const
-{
-    return !((*this) == other);
-}
-bool Deck::operator!=(std::vector<std::string> const &other) const
-{
-    return !((*this) == other);
-}
-*/
+
 void Deck::shuffle()
 {
     int random_number1 = std::experimental::randint(0, (int)getNofCards());
     int random_number2;
     cards.insert((cards.begin() + random_number1), usedCards.begin(), usedCards.end());
     usedCards = {};
-    for (int i = getNofCards(); i < 0; i--)
+    for (int i = getNofCards(); i > 0; i--)
     {
         random_number1 = std::experimental::randint(0, (int)getNofCards());
         random_number2 = std::experimental::randint(0, (int)getNofCards());
