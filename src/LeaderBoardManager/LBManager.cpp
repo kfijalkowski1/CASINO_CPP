@@ -1,14 +1,11 @@
 #include "LBManager.h"
 
-void LBReader::saveScores()
+LBReader::LBReader() : file("../data/LBoardExample.csv"){};
+
+void LBReader::pushBack(Score &s)
 {
-    std::ofstream myfile;
-    myfile.open("data/LBoardExample.csv");
-    for (auto i : (*filePtr))
-    {
-        myfile << i;
-    }
-    myfile.close();
+    file.push_back(s);
+    file.save();
 }
 
 std::vector<Score> LBReader::getLeaders(unsigned int gameId)
@@ -18,7 +15,7 @@ std::vector<Score> LBReader::getLeaders(unsigned int gameId)
     Score bestScore;
     Score secondScore;
     Score thirdScore;
-    for (auto i : (*filePtr)) // find biggest scores
+    for (auto i : file) // find biggest scores
     {
         if (i.getGameId() == gameId)
         {

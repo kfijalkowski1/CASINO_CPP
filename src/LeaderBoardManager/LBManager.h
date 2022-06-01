@@ -12,21 +12,15 @@ player id, game id, score
 //
 class LBReader
 {
-  private:
-    CSVfile<Score> *filePtr;
+private:
+  CSVfile<Score> file;
 
-  public:
-    LBReader()
-    {
-        std::string path = "data/LBoardExample.csv";
-        CSVfile<Score> file(path);
-        filePtr = &file;
-    }
-    void pushScore(Score const &s) { (*filePtr).push_back(s); }
-    // delete not done, donno if needed
-    // void deleteScore(Score const &s) noexcept;
+public:
+  LBReader();
 
-    void saveScores();
+  void pushBack(Score &s);
+  // delete not done, donno if needed
+  // void deleteScore(Score const &s) noexcept;
 
-    std::vector<Score> getLeaders(unsigned int gameId);
+  std::vector<Score> getLeaders(unsigned int gameId);
 };
