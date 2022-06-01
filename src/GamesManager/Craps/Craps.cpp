@@ -229,6 +229,14 @@ void CrPlayer::giveDices(Dices dices)
     result = resultScore.score;
 }
 
+// Methods for Craps
+
+void Craps::drawResult()
+{
+    Position pos(10, 10);
+    CrapsImage.writeText(pos, "YOU LOST HAHAHAHAHAHAHAH");
+}
+
 void Craps::addPlayer(Player *newPlayer)
 {
     crPlayer.playerPtr = newPlayer;
@@ -329,10 +337,12 @@ void Craps::tick()
         // UI...Show..(CrabsImage)
         counter++;
         if (counter > 100)
-            state = State::result;
-        else if (state == State::result)
         {
-            // rysuje i robie show result
+            state = State::result
         }
+    }
+    else if (state == State::result)
+    {
+        // rysuje i robie show result
     }
 }
