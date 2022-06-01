@@ -1,7 +1,7 @@
 #include "SelectionMenu.h"
 #include "MainManager/MainManager.h"
 
-SelectionMenu::SelectionMenu(void (*callback)(int), Box space,
+SelectionMenu::SelectionMenu(std::function<void(int)> callback, Box space,
                              std::vector<std::u32string> options,
                              std::u32string header)
     : callback(callback), space(space), options(options), selection(0)

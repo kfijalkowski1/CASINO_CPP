@@ -3,13 +3,14 @@
 #include "GraphicsManager/ImageBuffer/ImageBuffer.h"
 #include "UIController/UIController.h"
 
+#include <functional>
 #include <string>
 #include <vector>
 
 class TextInputMenu : public UIController
 {
   private:
-    void (*callback)(std::string);
+    std::function<void(std::string)> callback;
     Box space;
     std::string header;
 
@@ -23,7 +24,7 @@ class TextInputMenu : public UIController
     void drawTextInput();
 
   public:
-    TextInputMenu(void (*callback)(std::string), Box space,
+    TextInputMenu(std::function<void(std::string)> callback, Box space,
                   std::u32string header);
     void init() override;
     void tick() override;
