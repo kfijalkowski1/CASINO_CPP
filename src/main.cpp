@@ -2,6 +2,7 @@
 #include "MainManager/MainManager.h"
 #include "UIController/SelectionMenu/SelectionMenu.h"
 #include "UIController/TextInputMenu/TextInputMenu.h"
+#include "GamesManager/Craps/Craps.h"
 #include <exception>
 #include <iostream>
 
@@ -28,7 +29,7 @@ void mainAction(int selection)
 
 class Test
 {
-  public:
+public:
     int result = 0;
     void testing(int selection)
     {
@@ -41,11 +42,11 @@ int main()
 {
     Test t;
 
+    Craps *crGame = new Craps;
+
     mainManager.init();
     mainManager.addUIController(new UIController());
-    mainManager.addUIController(
-        new SelectionMenu(std::bind(&Test::testing, &t, std::placeholders::_1),
-                          Box(0, 0, 80, 24), {U"Play", U"Quit"}, U"Casino.o"));
+    mainManager.addUIController(crGame);
 
     try
     {

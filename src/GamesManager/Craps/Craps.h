@@ -67,7 +67,7 @@ class CrPlayer
 {
 public:
     Player *playerPtr;
-    CrPlayer();
+    CrPlayer(){};
     CrPlayer(Player *player);
     unsigned int bet = 0;      // cach value
     unsigned int betType = 1;  // 1 -> sum, 2 -> pair, 3 -> specific, used for mux of return if win

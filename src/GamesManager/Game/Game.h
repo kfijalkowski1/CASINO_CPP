@@ -4,6 +4,7 @@
 #include <string>
 #include "GraphicsManager/ImageBuffer/ImageBuffer.h"
 #include "GraphicsManager/Position/Position.h"
+#include "UIController/UIController.h"
 
 class Rules
 {
@@ -13,7 +14,7 @@ public:
   // std::string other_format();
 };
 
-class Game
+class Game : public UIController
 {
 public:
   // AllManager pointer?

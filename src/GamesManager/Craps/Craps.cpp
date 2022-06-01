@@ -263,8 +263,9 @@ void Craps::chooseAction(unsigned int a)
     if (a == 0)
     {
         state = State::setBetMenu;
-        mainManager.addUIController(new TextInputMenu(
-            setBets, Box(10, 0, 70, 24), U"Enter bet amount(cash): "));
+        mainManager.addUIController(
+            new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
+                              Box(0, 0, 80, 24), U"Enter bet amount(cash): "));
     }
     else
     {
@@ -283,8 +284,9 @@ void Craps::setBets(std::string bet)
         betNum = stoi(bet);
         crPlayer.bet = betNum;
         betsCount++;
-        mainManager.addUIController(new TextInputMenu(
-            setBets, Box(10, 0, 70, 24), U"Enter bet type(1->sum, 2->pair, 3->specific)): "));
+        mainManager.addUIController(
+            new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
+                              Box(0, 0, 80, 24), U"Enter bet type(1->sum, 2->pair, 3->specific): "));
         break;
     case 1:
         betNum = stoi(bet);
@@ -292,18 +294,21 @@ void Craps::setBets(std::string bet)
         betsCount++;
         if (crPlayer.betType == 1)
         {
-            mainManager.addUIController(new TextInputMenu(
-                setBets, Box(10, 0, 70, 24), U"Enter sum value: "));
+            mainManager.addUIController(
+                new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
+                                  Box(0, 0, 80, 24), U"Enter sum value: "));
         }
         if (crPlayer.betType == 2)
         {
-            mainManager.addUIController(new TextInputMenu(
-                setBets, Box(10, 0, 70, 24), U"Enter one dice value: "));
+            mainManager.addUIController(
+                new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
+                                  Box(0, 0, 80, 24), U"Enter one dice value: "));
         }
         if (crPlayer.betType == 3)
         {
-            mainManager.addUIController(new TextInputMenu(
-                setBets, Box(10, 0, 70, 24), U"Enter one dice num,second dice num: "));
+            mainManager.addUIController(
+                new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
+                                  Box(0, 0, 80, 24), U"Enter one dice num,second dice num: "));
         }
         break;
     case 2:
@@ -331,20 +336,21 @@ void Craps::setBets(std::string bet)
     //  Secon(SetBet2) -> cout setów -> startRolls -> ustawiam state na Crabs -> wybieram kosci -> zabieram/ daje monety
 }
 
-void Craps::processKeyPress(KeyPress)
-{
-    if (state == State::Result)
-    {
-        state = State::mainMenu;
-    }
-}
+// void Craps::processKeyPress(Keypress)
+// {
+//     if (state == State::Result)
+//     {
+//         state = State::mainMenu;
+//     }
+// }
 
 void Craps::tick()
 {
     if (state == State::mainMenu)
     {
-        mainManager.addUIController(new SelectionMenu(
-            chooseAction, Box(0, 0, 80, 24), {U"Play crabes", U"Quit"}, U"Crabes")); // globalne menu, choose action doatanie int
+        mainManager.addUIController(
+            new SelectionMenu(std::bind(&Craps::chooseAction, this, std::placeholders::_1),
+                              Box(0, 0, 80, 24), {U"Plaay crabs", U"Quit"}, U"Casino.o")); // globalne menu, choose action doatanie int
     }
     else if (state == State::setBetMenu)
     {
