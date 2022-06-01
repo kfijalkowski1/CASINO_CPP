@@ -50,24 +50,7 @@ Card::Card(char number, std::string suit)
     this->number = val_to_i[number];
     this->suit = suit_to_i[suit];
 }
-/*
-Card::Card(std::string representation)
-{
-    std::string temp_v, temp_s;
-    if (representation[0] != '1')
-    {
-        temp_v = representation.substr(0, 1);
-        temp_s = representation.substr(0);
-    }
-    else
-    {
-        temp_v = representation.substr(0, 2);
-        temp_s = representation.substr(1);
-    }
-    this->number = val_to_i[temp_v];
-    this->suit = suit_to_i[temp_s];
-}
-*/
+
 unsigned int Card::getNumber() const
 {
     return number;
@@ -88,28 +71,7 @@ std::string Card::to_string() const
 {
     return (i_to_val[number] + i_to_suit[suit]);
 }
-/*
-bool Card::operator==(Card const &other) const
-{
-    return (number == other.number && suit == other.suit);
-}
 
-bool Card::operator==(std::string const cardRep) const
-{
-    Card temp(cardRep);
-    return (*this) == temp;
-}
-
-bool Card::operator!=(Card const &other) const
-{
-    return !((*this) == other);
-}
-
-bool Card::operator!=(std::string const cardRep) const
-{
-    return !((*this) == cardRep);
-}
-*/
 Deck::Deck()
 {
     cards = generateStdDeck();

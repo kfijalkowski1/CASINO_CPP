@@ -13,12 +13,13 @@ BlackJack::BlackJack(Player &player, unsigned int nOfStdDecks)
 
 void BlackJack::processDecision(unsigned int dec)
 {
+    mainManager.removeUIController();
     // returns true if next player
     switch (dec)
     {
-    case 0:
-        // Hit
-        // update hand, checkHand, makeMove
+    case 0: // hit
+        player.hand.addCard(deck.getCard());
+        status = Status::animationSlideIn;
         break;
     case 1:
         // Stand
@@ -31,11 +32,14 @@ void BlackJack::processDecision(unsigned int dec)
 
 void BlackJack::processMainMenu(unsigned int dec)
 {
+    mainManager.removeUIController();
     switch (dec)
     {
     case 0: // Play
+        status = Status::setBetMenu;
         break;
     case 1: // Exit
+        mainManager.removeUIController();
         break;
     default:
         break;
@@ -43,30 +47,36 @@ void BlackJack::processMainMenu(unsigned int dec)
 }
 void BlackJack::processBet(std::string bet)
 {
+    mainManager.removeUIController();
     int bet_int = std::stoi(bet);
     if (bet_int > player.player.cash)
     {
-        state = State::errorBet;
+        status = Status::errorBet;
+    }
+    else
+    {
+        player.player.cash -= bet_int;
+        status = Status::decisionMenu;
     }
 }
 void BlackJack::tick()
 {
-    switch (state)
+    switch (status)
     {
-    case State::mainMenu:
-        // mainManager.addUIController(new SelectionMenu(processMainMenu, Box(0, 0, 80, 24), {U"Play", U"Quit"}, U"BlackJack"));
+    case Status::mainMenu:
+        mainManager.addUIController(new SelectionMenu(std::bind(&BlackJack::processMainMenu, this, std::placeholders::_1), Box(0, 0, 80, 24), {U"Play", U"Quit"}, U"BlackJack"));
         break;
-    case State::setBetMenu:
-        // mainManager.addUIController(new TextInputMenu(processBet, Box(10, 0, 70, 24), U"Enter your bet"));
+    case Status::setBetMenu:
+        mainManager.addUIController(new TextInputMenu(std::bind(&BlackJack::processBet, this, std::placeholders::_1), Box(10, 0, 70, 24), U"Enter your bet"));
         break;
-    case State::decisionMenu:
-        // mainManager.addUIController(new SelectionMenu(processDecision, Box(0, 0, 80, 24), {U"Hit", U"Stand"}, U"What do you do?"));
+    case Status::decisionMenu:
+        mainManager.addUIController(new SelectionMenu(std::bind(&BlackJack::processDecision, this, std::placeholders::_1), Box(0, 0, 80, 24), {U"Hit", U"Stand"}, U"What do you do?"));
         break;
-    case State::animationSlideIn:
+    case Status::animationSlideIn:
         if (counter > rowIndex)
         {
             img_bck = img;
-            state = State::decisionMenu;
+            status = Status::decisionMenu;
             counter = 0;
         }
         else
@@ -77,7 +87,7 @@ void BlackJack::tick()
         }
         counter++;
         break;
-    case State::animationSlideOut:
+    case Status::animationSlideOut:
         if (counter <= 75)
         {
             img = img_bck;
@@ -92,18 +102,17 @@ void BlackJack::tick()
         }
         else
         {
-            state = State::result;
+            status = Status::result;
             counter = 0;
+            drawResult();
         }
-    case State::result:
-        // int score = calculateScore();
-        //  how to convert int to vector<u32_string>;
-        //  mainManager.addUIController(new SelectionMenu(processKeyPress, Box(0, 0, 80, 24), {U"Quit"}, U"Variable with your score"));
+    case Status::result:
+        mainManager.graphicsManager.show(img);
         break;
-    case State::errorBet:
+    case Status::errorBet:
         // MainMenu.UIMenu(ErrorPopUp);
         break;
-    case State::exit:
+    case Status::exit:
         mainManager.removeUIController();
         break;
     default:
@@ -128,10 +137,27 @@ int BlackJack::calculateScore()
     return score;
 }
 
-void BlackJack::processKeyPress()
+void BlackJack::processKeypress(Keypress)
 {
-    if (state == State::result)
+    if (status == Status::result)
     {
-        state = State::mainMenu;
+        status = Status::mainMenu;
     }
+}
+void BlackJack::drawResult()
+{
+    Position pos(10, 0);
+    int score = calculateScore();
+    std::string mess;
+    if (score == 0)
+    {
+        std::string mess = "You lost: ";
+    }
+    else
+    {
+        std::string mess = "You won: ";
+    }
+    mess += std::to_string(score);
+    mess += " coins";
+    img.writeText(pos, mess);
 }
