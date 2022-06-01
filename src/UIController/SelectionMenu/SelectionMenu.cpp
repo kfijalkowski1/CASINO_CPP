@@ -4,7 +4,7 @@
 SelectionMenu::SelectionMenu(void (*callback)(int), Box space,
                              std::vector<std::u32string> options,
                              std::u32string header)
-    : callback(callback), space(space), options(options)
+    : callback(callback), space(space), options(options), selection(0)
 {
     initBuffer(header);
 }
@@ -28,8 +28,9 @@ void SelectionMenu::initBuffer(std::u32string &header)
             line, option, ImageBuffer::TextAlignment::center));
         line += Position(0, 1);
     }
-    drawSelection();
 }
+
+void SelectionMenu::init() { drawSelection(); }
 
 void SelectionMenu::drawSelection()
 {

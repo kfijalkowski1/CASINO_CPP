@@ -3,7 +3,7 @@
 
 TextInputMenu::TextInputMenu(void (*callback)(std::string), Box space,
                              std::u32string header)
-    : callback(callback), space(space), textInputPosition(0, 0)
+    : callback(callback), space(space), textInputPosition(0, 0), textPosition(0)
 {
     initBuffer(header);
 }
@@ -24,9 +24,9 @@ void TextInputMenu::initBuffer(std::u32string &header)
     mainBuffer.drawBoxBackground(line, Color::Grayscale(5));
 
     textInputPosition = line.topLeft;
-
-    drawTextInput();
 }
+
+void TextInputMenu::init() { drawTextInput(); }
 
 void TextInputMenu::drawTextInput()
 {
@@ -64,7 +64,7 @@ void TextInputMenu::processKeypress(Keypress key)
         {
         case '\n':
             callback(text);
-            break;
+            return;
         case 127: // backspace
             if (textPosition > 0)
                 text.erase(--textPosition, 1);

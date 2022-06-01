@@ -25,6 +25,7 @@ class SelectionMenu : public UIController
   public:
     SelectionMenu(void (*callback)(int), Box space,
                   std::vector<std::u32string> options, std::u32string header);
+    void init() override;
     void tick() override;
     void processKeypress(Keypress key) override;
 };

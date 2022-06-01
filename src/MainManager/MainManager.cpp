@@ -21,26 +21,39 @@ void MainManager::cleanup()
 
 bool MainManager::tick()
 {
+    pause = false;
     if (controllers.size() == 1)
         return false;
 
     while (inputManager.inputAvailable())
-        controllers.top()->processKeypress(inputManager.getKeypress());
+        if (!pause)
+            controllers.top()->processKeypress(inputManager.getKeypress());
 
-    controllers.top()->tick();
-    graphicsManager.draw();
-    controllers.top()->postDraw();
+    if (!pause)
+        controllers.top()->tick();
+    if (!pause)
+        graphicsManager.draw();
+    if (!pause)
+        controllers.top()->postDraw();
 
     return true;
 }
 
 void MainManager::addUIController(UIController *controller)
 {
+    bufferHistory.push(graphicsManager.currentBuffer);
     controllers.push(controller);
+
+    controllers.top()->init();
 }
 
 void MainManager::removeUIController()
 {
     delete controllers.top();
     controllers.pop();
+
+    graphicsManager.show(bufferHistory.top());
+    bufferHistory.pop();
+
+    pause = true;
 }

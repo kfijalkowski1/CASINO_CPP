@@ -9,6 +9,9 @@ class MainManager
 {
   private:
     std::stack<UIController *> controllers;
+    std::stack<ImageBuffer> bufferHistory;
+
+    bool pause;
 
   public:
     MainManager();

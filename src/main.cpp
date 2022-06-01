@@ -5,21 +5,33 @@
 #include <exception>
 #include <iostream>
 
-void callback(std::string result)
+void getText(std::string result)
 {
     mainManager.removeUIController();
     GraphicsCommands::moveCursor(81, 5);
     std::cout << result << std::endl;
 }
 
+void mainAction(int selection)
+{
+    switch (selection)
+    {
+    case 0:
+        mainManager.addUIController(new TextInputMenu(
+            getText, Box(10, 0, 70, 24), U"Enter player name"));
+        break;
+    case 1:
+        mainManager.removeUIController();
+        break;
+    }
+}
+
 int main()
 {
     mainManager.init();
     mainManager.addUIController(new UIController());
-    // mainManager.addUIController(new SelectionMenu(
-    //     callback, Box(0, 0, 80, 24), {U"Play", U"Quit"}, U"Casino.o"));
-    mainManager.addUIController(
-        new TextInputMenu(callback, Box(10, 0, 70, 24), U"Casino.o"));
+    mainManager.addUIController(new SelectionMenu(
+        mainAction, Box(0, 0, 80, 24), {U"Play", U"Quit"}, U"Casino.o"));
 
     try
     {

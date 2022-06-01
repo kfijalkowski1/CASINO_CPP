@@ -25,6 +25,7 @@ class TextInputMenu : public UIController
   public:
     TextInputMenu(void (*callback)(std::string), Box space,
                   std::u32string header);
+    void init() override;
     void tick() override;
     void processKeypress(Keypress key) override;
     void postDraw() override;
