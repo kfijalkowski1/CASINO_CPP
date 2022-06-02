@@ -1,7 +1,4 @@
 #include "BJPlayer.h"
 
-BJPlayer::BJPlayer(Player &player)
-{
-    this->player = player;
-}
-BJPlayer::BJPlayer(){};
+BJPlayer::BJPlayer(Player *player) : player(player) {}
+BJPlayer::BJPlayer() : player(nullptr) {}

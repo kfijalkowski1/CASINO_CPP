@@ -1,8 +1,11 @@
 id,name,password,cash
 1,Szymon,test123,1000
-2,Krzysztof,test123,552
-3,Adam,test123,100
+2,Krzysztof,test123,650
+3,Adam,test123,0
 4,aaaa,,4
 5,kk,,2
 6,testtPLAL,,900
 7,fsaffdsfsa,,1200
+8,ADam,,1000
+9,,,1010
+10,Wojtek,,1100

@@ -1,13 +1,12 @@
 #pragma once
-#include "GamesManager/Cards/Cards.h"
 #include "BJPlayer/BJPlayer.h"
+#include "GamesManager/Cards/Cards.h"
 #include "GamesManager/Game/Game.h"
-#include "UserManager/Player/Player.h"
 #include "GraphicsManager/GraphicsManager.h"
-#include "UserManager/Player/Player.h"
 #include "MainManager/MainManager.h"
 #include "UIController/SelectionMenu/SelectionMenu.h"
 #include "UIController/TextInputMenu/TextInputMenu.h"
+#include "UserManager/Player/Player.h"
 #include <exception>
 #include <iostream>
 #include <string>
@@ -23,6 +22,7 @@ enum class Status
     decisionMenu,
     animationSlideIn,
     lookAtCards,
+    dealerHand,
     animationSlideOut,
     result,
     errorBet,
@@ -31,7 +31,7 @@ enum class Status
 
 class BlackJack : public Game
 {
-private:
+  private:
     Status status;
 
     const static int rowIndex = 10;
@@ -50,11 +50,13 @@ private:
 
     int calculateScore();
 
-public:
+  public:
+    static unsigned gameId;
+
     Deck deck;
     ImageBuffer img;
     ImageBuffer img_bck;
-    BlackJack(Player &player, unsigned int nOfStdDecks);
+    BlackJack(Player *player, unsigned int nOfStdDecks);
 
     void tick();
 };

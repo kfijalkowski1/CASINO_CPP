@@ -4,22 +4,22 @@
 
 int main()
 {
-    mainManager = new MainManager();
-    mainManager->init();
-
     try
     {
+        mainManager = new MainManager();
+        mainManager->init();
+
         while (mainManager->tick())
         {
             mainManager->timingManager.tick();
             mainManager->timingManager.printStats(); // for debugging
         }
+
+        mainManager->cleanup();
+        delete mainManager;
     }
     catch (std::exception &e)
     {
         std::cout << "Standard exception: " << e.what() << std::endl;
     }
-
-    mainManager->cleanup();
-    delete mainManager;
 }
