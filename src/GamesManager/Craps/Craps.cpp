@@ -8,12 +8,12 @@ void Dice::roll() noexcept
 
 void Dice::drawEmptyRow(ImageBuffer &image, Position pos)
 {
-    for (int i = 0; i < 3; ++i)
+    for (int i = 0; i < 6; ++i)
     {
         (*this).drawSpace(image, pos);
         pos += Position(1, 0);
     }
-    pos += Position(-3, 0);
+    pos += Position(-6, 0);
 }
 
 void Dice::drawTwoInRow(ImageBuffer &image, Position pos)
@@ -22,18 +22,30 @@ void Dice::drawTwoInRow(ImageBuffer &image, Position pos)
     pos += Position(1, 0);
     (*this).drawSpace(image, pos);
     pos += Position(1, 0);
+    (*this).drawSpace(image, pos);
+    pos += Position(1, 0);
+    (*this).drawSpace(image, pos);
+    pos += Position(1, 0);
     (*this).drawDot(image, pos);
-    pos += Position(-2, 0);
+    pos += Position(1, 0);
+    (*this).drawSpace(image, pos);
+    pos += Position(-5, 0);
 }
 
 void Dice::drawMiddleRow(ImageBuffer &image, Position pos)
 {
     (*this).drawSpace(image, pos);
     pos += Position(1, 0);
+    (*this).drawSpace(image, pos);
+    pos += Position(1, 0);
     (*this).drawDot(image, pos);
     pos += Position(1, 0);
     (*this).drawSpace(image, pos);
-    pos += Position(-2, 0);
+    pos += Position(1, 0);
+    (*this).drawSpace(image, pos);
+    pos += Position(1, 0);
+    (*this).drawSpace(image, pos);
+    pos += Position(-5, 0);
 }
 
 void Dice::drawLeftRow(ImageBuffer &image, Position pos)
@@ -43,7 +55,13 @@ void Dice::drawLeftRow(ImageBuffer &image, Position pos)
     (*this).drawSpace(image, pos);
     pos += Position(1, 0);
     (*this).drawSpace(image, pos);
-    pos += Position(-2, 0);
+    pos += Position(1, 0);
+    (*this).drawSpace(image, pos);
+    pos += Position(1, 0);
+    (*this).drawSpace(image, pos);
+    pos += Position(1, 0);
+    (*this).drawSpace(image, pos);
+    pos += Position(-5, 0);
 }
 
 void Dice::drawRightRow(ImageBuffer &image, Position pos)
@@ -52,8 +70,14 @@ void Dice::drawRightRow(ImageBuffer &image, Position pos)
     pos += Position(1, 0);
     (*this).drawSpace(image, pos);
     pos += Position(1, 0);
+    (*this).drawSpace(image, pos);
+    pos += Position(1, 0);
+    (*this).drawSpace(image, pos);
+    pos += Position(1, 0);
     (*this).drawDot(image, pos);
-    pos += Position(-2, 0);
+    pos += Position(1, 0);
+    (*this).drawSpace(image, pos);
+    pos += Position(-5, 0);
 }
 
 void Dice::drawDot(ImageBuffer &image, Position pos)
@@ -140,7 +164,7 @@ void Dices::draw(ImageBuffer &img)
         dices[i].draw(img, x, y);
         if (x < 72) // ImageBuffer::width check if not in screen width anymore
         {
-            x += 4;
+            x += 8;
         }
         else
         {
