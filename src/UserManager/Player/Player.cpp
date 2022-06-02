@@ -6,7 +6,7 @@ const std::array<std::string, 4> Player::correctFieldNames = {
 Player::Player() {}
 
 Player::Player(unsigned int id, std::string name, std::string password)
-    : id(id), name(name), password(password)
+    : id(id), name(name), password(password), cash(1000)
 {
 }
 
