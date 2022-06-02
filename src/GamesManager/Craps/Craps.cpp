@@ -90,7 +90,7 @@ void Dice::drawSpace(ImageBuffer &image, Position pos)
     image.setPixel(pos, ' ', Color::RGB(1, 2, 3), Color::RGB(5, 5, 5));
 }
 
-void Dice::draw(ImageBuffer &img, int x, int y)
+void Dice::draw(ImageBuffer &img, int x, int y) // function for drowing single dice
 {
     Position pos = Position(x, y);
 
@@ -141,7 +141,7 @@ void Dice::draw(ImageBuffer &img, int x, int y)
     }
 }
 
-bool Dice::operator==(unsigned int const &value) const noexcept
+bool Dice::operator==(unsigned int const &value) const noexcept // compere operators for one dice
 {
     return this->value == value;
 }
@@ -156,7 +156,7 @@ Dices::Dices()
     dices.push_back(temp2);
 }
 
-void Dices::draw(ImageBuffer &img)
+void Dices::draw(ImageBuffer &img) // draw all dices in dices
 {
     int x = 0, y = 0;
     for (int i = 0; i < dices.size(); ++i)
@@ -180,7 +180,7 @@ void Dices::addDice()
     dices.push_back(temp);
 }
 
-void Dices::roll()
+void Dices::roll() // change value of every dice to rand value
 {
     for (int i = 0; i < dices.size(); ++i)
     {
