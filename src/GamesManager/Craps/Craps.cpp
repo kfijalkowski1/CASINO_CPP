@@ -201,14 +201,6 @@ std::vector<Dice> Dices::getDices() { return dices; }
 
 // METHODES FOR CR PLAYER
 
-// static void CrPlayer::setBets(unsigned int bet, unsigned int betType,
-// unsigned int bet1, unsigned int bet2)
-// {
-//     this->bet = bet;
-//     this->betType = betType;
-//     this->diceVal1 = bet1;
-//     this->diceVal2 = bet2;
-// }
 void CrPlayer::giveDices(Dices dices)
 {
     Score resultScore;
@@ -255,13 +247,13 @@ void Craps::drawResult()
     Position pos(10, 10);
     crPlayer.giveDices(dices);
     std::string mess;
-    if (crPlayer.result < 0)
+    if (crPlayer.result <= 0)
     {
-        std::string mess = "You lost: ";
+        mess = "You lost: ";
     }
     else
     {
-        std::string mess = "You won: ";
+        mess = "You won: ";
     }
     mess += std::to_string(crPlayer.result);
     mess += " coins";
@@ -350,7 +342,7 @@ void Craps::setBets(std::string bet)
         state = State::craps;
         if (crPlayer.betType == 3)
         {
-            std::size_t pos = bet.find(","); // position of "live" in str
+            std::size_t pos = bet.find(","); // position of "," in str, for two values
             ++pos;
             crPlayer.diceVal2 = stoi(bet.substr(pos));
             crPlayer.diceVal1 = stoi(bet.substr(0, pos));
@@ -366,6 +358,11 @@ void Craps::setBets(std::string bet)
                 return;
             }
             crPlayer.diceVal1 = stoi(bet) / 2;
+            if ((crPlayer.diceVal1 > 6) || (crPlayer.diceVal1 < 1))
+            {
+                state = State::mainMenu;
+                return;
+            }
             state = State::craps;
             break;
         }
