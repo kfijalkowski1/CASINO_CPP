@@ -3,7 +3,6 @@
 
 void Dice::roll() noexcept
 {
-    srand(time(NULL));
     (*this).value = (rand() % 6) + 1;
 }
 

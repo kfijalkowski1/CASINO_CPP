@@ -102,7 +102,7 @@ public:
     Craps(std::vector<CrPlayer> players);
     Craps(std::vector<Player> players);
     Craps(Player *player);
-    Craps(){};
+    Craps() { srand(time(NULL)); };
 
     // Logic methods
     void roll() { dices.roll(); };
