@@ -4,10 +4,11 @@
 
 class UserManager
 {
-  private:
-    CSVfile<Player> file;
+private:
+  CSVfile<Player> file;
 
-  public:
-    UserManager();
-    Player *getPlayer(std::string login);
+public:
+  void save();
+  UserManager();
+  Player *getPlayer(std::string login);
 };

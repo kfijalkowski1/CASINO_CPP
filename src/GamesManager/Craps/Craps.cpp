@@ -219,7 +219,8 @@ void CrPlayer::giveDices(Dices dices)
         result = -1 * bet;
     }
     playerPtr->cash += resultScore.score;
-    mainManager.leaderManager.pushBack(resultScore);
+    mainManager->leaderManager.pushBack(resultScore);
+    mainManager->userManager.save();
     result = resultScore.score;
 }
 
@@ -268,24 +269,25 @@ void Craps::chooseAction(unsigned int a)
 
 void Craps::setBetsNum(unsigned int type)
 {
-    mainManager.removeUIController();
+    mainManager->removeUIController();
+    mainManager->graphicsManager.clear();
     crPlayer.betType = type + 1;
     betsCount++;
     if (crPlayer.betType == 1)
     {
-        mainManager.addUIController(
+        mainManager->addUIController(
             new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
                               Box(10, 0, 70, 24), U"Enter sum value: "));
     }
     if (crPlayer.betType == 2)
     {
-        mainManager.addUIController(
+        mainManager->addUIController(
             new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
                               Box(10, 0, 70, 24), U"Enter one dice value: "));
     }
     if (crPlayer.betType == 3)
     {
-        mainManager.addUIController(
+        mainManager->addUIController(
             new TextInputMenu(std::bind(&Craps::setBets, this, std::placeholders::_1),
                               Box(10, 0, 70, 24), U"Enter one dice num,second dice num: "));
     }
@@ -294,6 +296,7 @@ void Craps::setBetsNum(unsigned int type)
 void Craps::setBets(std::string bet)
 {
     mainManager->removeUIController();
+    mainManager->graphicsManager.clear();
     int betNum;
     std::istringstream ss(bet);
 
@@ -372,6 +375,7 @@ void Craps::tick()
 {
     if (state == State::mainMenu)
     {
+        mainManager->graphicsManager.clear();
         mainManager->addUIController(
             new SelectionMenu(std::bind(&Craps::chooseAction, this, std::placeholders::_1),
                               Box(10, 0, 70, 24), {U"Plaay crabs", U"Quit"}, U"CRAAAAABS")); // globalne menu, choose action doatanie int

@@ -1,5 +1,9 @@
 #include "UserManager.h"
 
+void UserManager::save()
+{
+    file.save();
+}
 UserManager::UserManager() : file("../data/players.csv") {}
 
 Player *UserManager::getPlayer(std::string login)
