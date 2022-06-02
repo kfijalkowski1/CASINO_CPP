@@ -333,12 +333,24 @@ void Craps::setBets(std::string bet)
         }
         else if (crPlayer.betType == 2)
         {
+            ss >> betNum;
+            if (ss.fail())
+            {
+                state = State::mainMenu;
+                return;
+            }
             crPlayer.diceVal1 = stoi(bet) / 2;
             state = State::craps;
             break;
         }
         else if (crPlayer.betType == 1)
         {
+            ss >> betNum;
+            if (ss.fail())
+            {
+                state = State::mainMenu;
+                return;
+            }
             crPlayer.diceVal1 = stoi(bet);
             state = State::craps;
             break;
