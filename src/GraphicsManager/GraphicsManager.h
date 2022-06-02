@@ -5,17 +5,17 @@
 
 class GraphicsManager
 {
-private:
-  unsigned int terminalWidth, terminalHeight;
-  unsigned int startX, startY;
+  private:
+    unsigned int terminalWidth, terminalHeight;
+    unsigned int startX, startY;
 
-public:
-  GraphicsManager(unsigned int width, unsigned int height);
+  public:
+    GraphicsManager(unsigned int width, unsigned int height);
 
-  ImageBuffer currentBuffer;
+    ImageBuffer currentBuffer;
 
-  void init();
-  void draw();
-  void show(ImageBuffer newBuffer);
-  void clear();
+    void init();
+    void draw();
+    void show(ImageBuffer newBuffer);
+    void clear();
 };

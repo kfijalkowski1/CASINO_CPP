@@ -4,16 +4,19 @@
 
 class Player : public RowType
 {
-public:
-  const static std::array<std::string, 4> correctFieldNames;
+  public:
+    Player();
+    Player(unsigned int id, std::string name, std::string password);
 
-  std::vector<std::string> toStrings();
-  void loadStrings(const std::vector<std::string> &rowValues);
+    const static std::array<std::string, 4> correctFieldNames;
 
-  unsigned int id;
-  std::string name;
-  std::string password;
-  unsigned int cash; // cash could be separate class
+    std::vector<std::string> toStrings();
+    void loadStrings(const std::vector<std::string> &rowValues);
 
-  bool operator==(Player const &p) const noexcept;
+    unsigned int id;
+    std::string name;
+    std::string password;
+    unsigned int cash; // cash could be separate class
+
+    bool operator==(Player const &p) const noexcept;
 };
