@@ -312,6 +312,11 @@ void Craps::setBets(std::string bet)
             return;
         }
         // betNum = stoi(bet);
+        if (crPlayer.playerPtr->cash < betNum)
+        {
+            state = State::mainMenu;
+            return;
+        }
         crPlayer.bet = betNum;
         betsCount++;
         // if
