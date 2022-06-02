@@ -43,7 +43,3 @@ bool Color::operator!=(Color &color)
 {
     return this->colorCode != color.colorCode;
 }
-void Color::set(unsigned char newCol)
-{
-    colorCode = newCol;
-}

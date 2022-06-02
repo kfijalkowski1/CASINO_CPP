@@ -4,16 +4,18 @@
 #include <string>
 
 BlackJack::BlackJack(Player &player, unsigned int nOfStdDecks)
+    : status(Status::mainMenu)
 {
     BJPlayer temp(player);
     this->player = temp;
     Deck deck1(nOfStdDecks);
     deck = deck1;
+    deck.shuffle();
 }
 
 void BlackJack::processDecision(unsigned int dec)
 {
-    mainManager.removeUIController();
+    mainManager->removeUIController();
     // returns true if next player
     switch (dec)
     {
@@ -36,7 +38,7 @@ void BlackJack::processDecision(unsigned int dec)
 
 void BlackJack::processMainMenu(unsigned int dec)
 {
-    mainManager.removeUIController();
+    mainManager->removeUIController();
     switch (dec)
     {
     case 0: // Play
@@ -45,7 +47,7 @@ void BlackJack::processMainMenu(unsigned int dec)
         status = Status::dealerCard;
         break;
     case 1: // Exit
-        mainManager.removeUIController();
+        mainManager->removeUIController();
         break;
     default:
         break;
@@ -53,8 +55,7 @@ void BlackJack::processMainMenu(unsigned int dec)
 }
 void BlackJack::processBet(std::string bet)
 {
-    mainManager.removeUIController();
-
+    mainManager->removeUIController();
     int bet_int = std::stoi(bet);
 
     if (bet_int > player.player.cash)
@@ -72,7 +73,9 @@ void BlackJack::tick()
     switch (status)
     {
     case Status::mainMenu:
-        mainManager.addUIController(new SelectionMenu(std::bind(&BlackJack::processMainMenu, this, std::placeholders::_1), Box(0, 0, 80, 24), {U"Play", U"Quit"}, U"BlackJack"));
+        mainManager->addUIController(new SelectionMenu(
+            std::bind(&BlackJack::processMainMenu, this, std::placeholders::_1),
+            Box(0, 0, 80, 24), {U"Play", U"Quit"}, U"BlackJack"));
         break;
     case Status::dealerCard:
         if (counter == 0)
@@ -84,7 +87,7 @@ void BlackJack::tick()
         }
         else if (counter < 100)
         {
-            mainManager.graphicsManager.show(img);
+            mainManager->graphicsManager.show(img);
             counter++;
         }
         else
@@ -94,10 +97,15 @@ void BlackJack::tick()
         }
         break;
     case Status::setBetMenu:
-        mainManager.addUIController(new TextInputMenu(std::bind(&BlackJack::processBet, this, std::placeholders::_1), Box(30, 0, 50, 24), U"Enter your bet"));
+        mainManager->addUIController(new TextInputMenu(
+            std::bind(&BlackJack::processBet, this, std::placeholders::_1),
+            Box(30, 0, 50, 24), U"Enter your bet"));
         break;
     case Status::decisionMenu:
-        mainManager.addUIController(new SelectionMenu(std::bind(&BlackJack::processDecision, this, std::placeholders::_1), Box(30, 8, 50, 16), {U"Hit", U"Stand", U"Look at cards"}, U"What do you do?"));
+        mainManager->addUIController(new SelectionMenu(
+            std::bind(&BlackJack::processDecision, this, std::placeholders::_1),
+            Box(30, 8, 50, 16), {U"Hit", U"Stand", U"Look at cards"},
+            U"What do you do?"));
         break;
     case Status::animationSlideIn:
         if (counter > 180)
@@ -110,15 +118,17 @@ void BlackJack::tick()
         {
             img = img_bck;
             size_t size = player.hand.cards.size();
-            player.hand.cards[size - 1].draw(img, Position((unsigned int)(size - 1) * 3, ((unsigned int)counter / 10)));
-            mainManager.graphicsManager.show(img);
+            player.hand.cards[size - 1].draw(
+                img, Position((unsigned int)(size - 1) * 3,
+                              ((unsigned int)counter / 10)));
+            mainManager->graphicsManager.show(img);
         }
         counter++;
         break;
     case Status::lookAtCards:
         if (counter < 100)
         {
-            mainManager.graphicsManager.show(img);
+            mainManager->graphicsManager.show(img);
             counter++;
         }
         else
@@ -132,13 +142,13 @@ void BlackJack::tick()
         {
             img = img_bck;
             size_t size = player.hand.cards.size();
-            for (int i = size; i >= 0; i--)
+            for (int i = size - 1; i >= 0; i--)
             {
                 int x = counter + size - i;
                 if (x <= 75)
-                    player.hand.cards[size - i].draw(img, Position(x, 18));
+                    player.hand.cards[size - i - 1].draw(img, Position(x, 18));
             }
-            mainManager.graphicsManager.show(img);
+            mainManager->graphicsManager.show(img);
             counter++;
         }
         else
@@ -148,13 +158,13 @@ void BlackJack::tick()
             drawResult();
         }
     case Status::result:
-        mainManager.graphicsManager.show(img);
+        mainManager->graphicsManager.show(img);
         break;
     case Status::errorBet:
         status = Status::mainMenu;
         break;
     case Status::exit:
-        mainManager.removeUIController();
+        mainManager->removeUIController();
         break;
     default:
         break;

@@ -11,17 +11,23 @@ SelectionMenu::SelectionMenu(std::function<void(int)> callback, Box space,
 
 void SelectionMenu::initBuffer(std::u32string &header)
 {
+    mainBuffer = mainManager->graphicsManager.currentBuffer;
+
     int width = space.bottomRight.x - space.topLeft.x;
     int height = space.bottomRight.y - space.topLeft.y;
 
-    int topPadding = (height - (options.size() + 2)) / 2;
+    int topPadding =
+        (height - (options.size() + (header.length() > 0) ? 2 : 0)) / 2;
     Box line = space;
     line.topLeft.y += topPadding;
     line.bottomRight.y = line.topLeft.y + 1;
 
-    mainBuffer.writeText(line, header, ImageBuffer::TextAlignment::center);
+    if (header.length() > 0)
+    {
+        mainBuffer.writeText(line, header, ImageBuffer::TextAlignment::center);
 
-    line += Position(0, 2);
+        line += Position(0, 2);
+    }
     for (auto option : options)
     {
         optionPositions.push_back(mainBuffer.writeText(
@@ -43,10 +49,10 @@ void SelectionMenu::drawSelection()
         Box(pos, pos + Position(options[selection].length(), 1)),
         Color::Standard(0));
 
-    mainManager.graphicsManager.show(buffer);
+    mainManager->graphicsManager.show(buffer);
 }
 
-void SelectionMenu::tick() {}
+void SelectionMenu::tick() { drawSelection(); }
 void SelectionMenu::processKeypress(Keypress key)
 {
     if (key.arrow)

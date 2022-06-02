@@ -1,8 +1,10 @@
 #pragma once
 #include "GraphicsManager/GraphicsManager.h"
 #include "InputManager/InputManager.h"
+#include "MenuManager/MenuManger.h"
 #include "TimingManager/TimingManager.h"
 #include "UIController/UIController.h"
+#include "UserManager/UserManager.h"
 #include <stack>
 
 class MainManager
@@ -22,11 +24,15 @@ class MainManager
     void addUIController(UIController *controller);
     void removeUIController();
 
+    Player *currentPlayer;
+
     GraphicsManager graphicsManager;
     TimingManager timingManager;
     InputManager inputManager;
     // leaderboard manager
     // other managers
+    MenuManager menuManager;
+    UserManager userManager;
 };
 
-extern MainManager mainManager;
+extern MainManager *mainManager;

@@ -117,9 +117,9 @@ template <class Row> class CSVfile
     const Row &operator[](std::size_t rowN) const { return getRow(rowN); }
 
     auto begin() { return rows.begin(); }
-    auto front() { return rows.front(); }
+    auto &front() { return rows.front(); }
     auto end() { return rows.end(); }
-    auto back() { return rows.back(); }
+    auto &back() { return rows.back(); }
     auto size() { return rows.size(); }
     auto push_back(const Row &val) { return rows.push_back(val); }
     auto pop_back() { return rows.pop_back(); }
