@@ -5,9 +5,8 @@
 #include "TimingManager/TimingManager.h"
 #include "UIController/UIController.h"
 #include "LeaderBoardManager/LBManager.h"
-
 #include "UserManager/UserManager.h"
-#include < stack>
+#include <stack>
 
 class MainManager
 {
