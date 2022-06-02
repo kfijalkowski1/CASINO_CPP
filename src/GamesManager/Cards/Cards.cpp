@@ -5,8 +5,8 @@
 
 std::map<std::string, unsigned int> suit_to_i = {{"Clubs", 0}, {"Diamonds", 1}, {"Hearts", 2}, {"Spades", 3}};
 std::map<unsigned int, std::string> i_to_suit = {{0, "Clubs"}, {1, "Diamonds"}, {2, "Hearts"}, {3, "Spades"}};
-// std::map<unsigned int, std::string> i_to_symbol = {{0, "♣"}, {1, "♦"}, {2, "♥"}, {3, "♠"}};
-std::map<unsigned int, char> i_to_symbol = {{0, '!'}, {1, '@'}, {2, '#'}, {3, '$'}};
+std::map<unsigned int, char32_t> i_to_symbol = {{0, u'♣'}, {1, u'♦'}, {2, u'♥'}, {3, u'♠'}};
+// std::map<unsigned int, char> i_to_symbol = {{0, '!'}, {1, '@'}, {2, '#'}, {3, '$'}};
 std::map<char, unsigned int> val_to_i = {
     {'2', 2},
     {'3', 3},
@@ -50,24 +50,7 @@ Card::Card(char number, std::string suit)
     this->number = val_to_i[number];
     this->suit = suit_to_i[suit];
 }
-/*
-Card::Card(std::string representation)
-{
-    std::string temp_v, temp_s;
-    if (representation[0] != '1')
-    {
-        temp_v = representation.substr(0, 1);
-        temp_s = representation.substr(0);
-    }
-    else
-    {
-        temp_v = representation.substr(0, 2);
-        temp_s = representation.substr(1);
-    }
-    this->number = val_to_i[temp_v];
-    this->suit = suit_to_i[temp_s];
-}
-*/
+
 unsigned int Card::getNumber() const
 {
     return number;
@@ -88,28 +71,7 @@ std::string Card::to_string() const
 {
     return (i_to_val[number] + i_to_suit[suit]);
 }
-/*
-bool Card::operator==(Card const &other) const
-{
-    return (number == other.number && suit == other.suit);
-}
 
-bool Card::operator==(std::string const cardRep) const
-{
-    Card temp(cardRep);
-    return (*this) == temp;
-}
-
-bool Card::operator!=(Card const &other) const
-{
-    return !((*this) == other);
-}
-
-bool Card::operator!=(std::string const cardRep) const
-{
-    return !((*this) == cardRep);
-}
-*/
 Deck::Deck()
 {
     cards = generateStdDeck();

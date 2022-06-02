@@ -10,17 +10,23 @@ TextInputMenu::TextInputMenu(std::function<void(std::string)> callback,
 
 void TextInputMenu::initBuffer(std::u32string &header)
 {
+    mainBuffer = mainManager->graphicsManager.currentBuffer;
+
     int width = space.bottomRight.x - space.topLeft.x;
     int height = space.bottomRight.y - space.topLeft.y;
 
-    int topPadding = (height - 3) / 2;
+    int topPadding = (height - (1 + (header.length() > 0) ? 2 : 0)) / 2;
     Box line = space;
     line.topLeft.y += topPadding;
     line.bottomRight.y = line.topLeft.y + 1;
 
-    mainBuffer.writeText(line, header, ImageBuffer::TextAlignment::center);
+    if (header.length() > 0)
+    {
+        mainBuffer.writeText(line, header, ImageBuffer::TextAlignment::center);
 
-    line += Position(0, 2);
+        line += Position(0, 2);
+    }
+
     mainBuffer.drawBoxBackground(line, Color::Grayscale(5));
 
     textInputPosition = line.topLeft;
@@ -38,10 +44,10 @@ void TextInputMenu::drawTextInput()
     buffer.setBackground(textInputPosition + Position(textPosition, 0),
                          Color::Default);
 
-    mainManager.graphicsManager.show(buffer);
+    mainManager->graphicsManager.show(buffer);
 }
 
-void TextInputMenu::tick() {}
+void TextInputMenu::tick() { drawTextInput(); }
 void TextInputMenu::processKeypress(Keypress key)
 {
     if (key.arrow)

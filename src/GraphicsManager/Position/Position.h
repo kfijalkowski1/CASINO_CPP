@@ -2,10 +2,10 @@
 
 class Position
 {
-public:
-  int x, y;
-  Position(int x, int y);
+  public:
+    int x, y;
+    Position(int x, int y);
 
-  Position operator+(const Position &that) const;
-  Position &operator+=(const Position &that);
+    Position operator+(const Position &that) const;
+    Position &operator+=(const Position &that);
 };

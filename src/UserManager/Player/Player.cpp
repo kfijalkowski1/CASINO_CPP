@@ -3,6 +3,13 @@
 const std::array<std::string, 4> Player::correctFieldNames = {
     "id", "name", "password", "cash"};
 
+Player::Player() {}
+
+Player::Player(unsigned int id, std::string name, std::string password)
+    : id(id), name(name), password(password)
+{
+}
+
 std::vector<std::string> Player::toStrings()
 {
     std::vector<std::string> result;
@@ -22,7 +29,4 @@ void Player::loadStrings(const std::vector<std::string> &rowValues)
 
 // implement compere operators
 
-bool Player::operator==(Player const &p) const noexcept
-{
-    return id == p.id;
-}
+bool Player::operator==(Player const &p) const noexcept { return id == p.id; }
