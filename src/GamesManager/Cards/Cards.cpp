@@ -5,8 +5,8 @@
 
 std::map<std::string, unsigned int> suit_to_i = {{"Clubs", 0}, {"Diamonds", 1}, {"Hearts", 2}, {"Spades", 3}};
 std::map<unsigned int, std::string> i_to_suit = {{0, "Clubs"}, {1, "Diamonds"}, {2, "Hearts"}, {3, "Spades"}};
-// std::map<unsigned int, std::string> i_to_symbol = {{0, "♣"}, {1, "♦"}, {2, "♥"}, {3, "♠"}};
-std::map<unsigned int, char> i_to_symbol = {{0, '!'}, {1, '@'}, {2, '#'}, {3, '$'}};
+std::map<unsigned int, char32_t> i_to_symbol = {{0, u'♣'}, {1, u'♦'}, {2, u'♥'}, {3, u'♠'}};
+// std::map<unsigned int, char> i_to_symbol = {{0, '!'}, {1, '@'}, {2, '#'}, {3, '$'}};
 std::map<char, unsigned int> val_to_i = {
     {'2', 2},
     {'3', 3},

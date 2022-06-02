@@ -18,9 +18,11 @@
 enum class Status
 {
     mainMenu,
+    dealerCard,
     setBetMenu,
     decisionMenu,
     animationSlideIn,
+    lookAtCards,
     animationSlideOut,
     result,
     errorBet,
@@ -30,7 +32,6 @@ enum class Status
 class BlackJack : public Game
 {
 private:
-    Deck deck;
     Status status;
 
     const static int rowIndex = 10;
@@ -50,6 +51,7 @@ private:
     int calculateScore();
 
 public:
+    Deck deck;
     ImageBuffer img;
     ImageBuffer img_bck;
     BlackJack(Player &player, unsigned int nOfStdDecks);
