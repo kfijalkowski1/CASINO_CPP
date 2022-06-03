@@ -262,6 +262,7 @@ void Craps::drawResult()
 Craps::Craps(Player *player) : state(State::mainMenu)
 {
     crPlayer.playerPtr = player;
+    srand(time(NULL));
 }
 void Craps::addPlayer(Player *newPlayer) { crPlayer.playerPtr = newPlayer; }
 

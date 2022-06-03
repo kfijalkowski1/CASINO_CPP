@@ -25,6 +25,7 @@ class Dice
 {
     // class for dice
 private:
+    // IO methods -> for easier draw manipulation
     void drawDot(ImageBuffer &image, Position pos);
     void drawSpace(ImageBuffer &image, Position pos);
     void drawEmptyRow(ImageBuffer &image, Position pos); // position is starting position
@@ -52,12 +53,11 @@ class Dices
 {
     // normaly there are always two dices used, but for futhure expend, it's a dices vector
 public:
-    std::vector<Dice> dices;
-    // wektor obiektów klay dice, każda kość ma draw
-    Dices(); // constructor pushes two dices into vector
+    std::vector<Dice> dices; // each dice has draw method
+    Dices();                 // constructor pushes two dices into vector
     void addDice();
     void roll();
-    void draw(ImageBuffer &img); // donno if ness yet
+    void draw(ImageBuffer &img); // draws all of dices in this->dices
     std::vector<Dice> getDices();
     unsigned int sum();
 };
@@ -72,7 +72,6 @@ public:
     unsigned int betType = 1;  // 1 -> sum, 2 -> pair, 3 -> specific, used for mux of return if win
     unsigned int diceVal1 = 0; // used for specific player bets eg. if sum -> bet1 is sum, if pair -> bet1 is what of
     unsigned int diceVal2 = 0;
-    void setBets(unsigned int bet, unsigned int betType, unsigned int bet1, unsigned int bet2);
     void giveDices(Dices dices);
     int result;
 };
@@ -90,12 +89,13 @@ class Craps : public Game
 {
 private:
     unsigned int gameId = 444;
-    unsigned int counter = 0;
     Dices dices;
-    // std::vector<CrPlayer *> players;
     CrPlayer crPlayer;
     State state;
-    int betsCount = 0;
+
+    // IO
+    unsigned int counter = 0; // counter used in ticks
+    int betsCount = 0;        // betsCount same as counter but in diff functii=on
 
 public:
     ImageBuffer CrapsImage;
@@ -107,8 +107,6 @@ public:
     // Logic methods
     void roll() { dices.roll(); };
     void addPlayer(Player *player);
-    void summarise();
-    void startNewDeal();
 
     // IO methods
     void processKeypress(Keypress);
@@ -117,7 +115,5 @@ public:
     void setBetsNum(unsigned int type);
     void mainMenu();
     void chooseAction(unsigned int a);
-    void tick(); // drows all dices and writes if won
-    std::string fakeMenu(std::string message);
-    void takeImput(std::string imput, CrPlayer &player);
+    void tick(); // main IO function
 };
