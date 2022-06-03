@@ -4,10 +4,10 @@
 
 class BJPlayer
 {
-public:
+  public:
     BJPlayer();
-    BJPlayer(Player &player);
-    Player player;
+    BJPlayer(Player *player);
+    Player *player;
     BJHand hand;
     unsigned int bet = 0;
 };

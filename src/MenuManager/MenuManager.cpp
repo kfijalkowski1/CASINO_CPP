@@ -83,7 +83,7 @@ void MenuManager::callbackGameMenu(int sel)
     {
     case 0:
         mainManager->addUIController(
-            new BlackJack(*mainManager->currentPlayer, 6));
+            new BlackJack(mainManager->currentPlayer, 6));
         break;
     case 1:
         mainManager->addUIController(new Craps(mainManager->currentPlayer));

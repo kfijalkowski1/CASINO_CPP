@@ -3,11 +3,11 @@
 
 #include <string>
 
-BlackJack::BlackJack(Player &player, unsigned int nOfStdDecks)
-    : status(Status::mainMenu)
+unsigned int BlackJack::gameId = 777;
+
+BlackJack::BlackJack(Player *player, unsigned int nOfStdDecks)
+    : status(Status::mainMenu), player(player)
 {
-    BJPlayer temp(player);
-    this->player = temp;
     Deck deck1(nOfStdDecks);
     deck = deck1;
     deck.shuffle();
@@ -24,9 +24,11 @@ void BlackJack::processDecision(unsigned int dec)
         status = Status::animationSlideIn;
         break;
     case 1: // Stand
-        img_bck = ImageBuffer();
-        img = ImageBuffer();
-        status = Status::animationSlideOut;
+        // img_bck = ImageBuffer();
+        // img = ImageBuffer();
+        counter = 0;
+        status = Status::dealerHand;
+        dealer.hand.addCard(deck.getCard());
         break;
     case 2: // look at cards
         status = Status::lookAtCards;
@@ -58,14 +60,23 @@ void BlackJack::processBet(std::string bet)
     mainManager->removeUIController();
     int bet_int = std::stoi(bet);
 
-    if (bet_int > player.player.cash)
+    if (bet_int > player.player->cash)
     {
         status = Status::errorBet;
     }
     else
     {
-        player.player.cash -= bet_int;
-        status = Status::decisionMenu;
+        if (player.player->cash < bet_int)
+            status = Status::errorBet;
+        else
+        {
+            player.player->cash -= bet_int;
+            player.bet = bet_int;
+            mainManager->userManager.save();
+
+            player.hand.addCard(deck.getCard());
+            status = Status::animationSlideIn;
+        }
     }
 }
 void BlackJack::tick()
@@ -73,6 +84,7 @@ void BlackJack::tick()
     switch (status)
     {
     case Status::mainMenu:
+        mainManager->graphicsManager.clear();
         mainManager->addUIController(new SelectionMenu(
             std::bind(&BlackJack::processMainMenu, this, std::placeholders::_1),
             Box(0, 0, 80, 24), {U"Play", U"Quit"}, U"BlackJack"));
@@ -111,7 +123,14 @@ void BlackJack::tick()
         if (counter > 180)
         {
             img_bck = img;
-            status = Status::decisionMenu;
+            if (player.hand.getPoints() >= 21)
+            {
+                counter = 0;
+                status = Status::dealerHand;
+                dealer.hand.addCard(deck.getCard());
+            }
+            else
+                status = Status::decisionMenu;
             counter = 0;
         }
         else
@@ -134,6 +153,35 @@ void BlackJack::tick()
         else
         {
             status = Status::decisionMenu;
+            counter = 0;
+        }
+        break;
+    case Status::dealerHand:
+        if (counter <= 30)
+        {
+            img = img_bck;
+            size_t size = dealer.hand.cards.size();
+            dealer.hand.cards[size - 1].draw(
+                img, Position((unsigned int)(size - 1) * 3, 0));
+            mainManager->graphicsManager.show(img);
+            counter++;
+        }
+        else
+        {
+            img_bck = img;
+            if (dealer.hand.getPoints() > 16)
+            {
+                status = Status::animationSlideOut;
+                auto box = Box(0, ImageBuffer::height - 10, ImageBuffer::width,
+                               ImageBuffer::height);
+                img_bck.drawBoxCharacter(box, U' ');
+                img_bck.drawBoxColor(box, Color::Default);
+                img_bck.drawBoxBackground(box, Color::DefaultBackground);
+            }
+            else
+            {
+                dealer.hand.addCard(deck.getCard());
+            }
             counter = 0;
         }
         break;
@@ -181,12 +229,12 @@ int BlackJack::calculateScore()
     else if (plyPoints < 21)
     {
         if (dlrPoints < plyPoints)
-            score = player.bet;
+            score = 2 * player.bet;
         else
             score = 0;
     }
     else
-        score = (player.bet) * 3 / 2;
+        score = (player.bet) * 5 / 2;
     return score;
 }
 
@@ -202,18 +250,41 @@ void BlackJack::processKeypress(Keypress)
 }
 void BlackJack::drawResult()
 {
-    Position pos(10, 0);
     int score = calculateScore();
+    player.player->cash += score;
+    mainManager->userManager.save();
+
+    Score leaderBoardScore = Score();
+    leaderBoardScore.gameId = BlackJack::gameId;
+    leaderBoardScore.score = score;
+    leaderBoardScore.playerId = player.player->id;
+
+    mainManager->leaderManager.pushBack(leaderBoardScore);
+
     std::string mess;
     if (score == 0)
     {
-        std::string mess = "You lost: ";
+        mess = "You lost: ";
     }
     else
     {
-        std::string mess = "You won: ";
+        mess = "You won: ";
     }
     mess += std::to_string(score);
     mess += " coins";
-    img.writeText(pos, mess);
+
+    std::string dealerPointString =
+        "Dealer has: " + std::to_string(dealer.hand.getPoints()) + " points";
+    std::string playerPointString =
+        "Player has: " + std::to_string(player.hand.getPoints()) + " points";
+
+    Position row = Position(0, ImageBuffer::height / 2 - 2);
+    img.writeText(Box(row, row + Position(ImageBuffer::width, 0)),
+                  dealerPointString, ImageBuffer::TextAlignment::center);
+    row += Position(0, 1);
+    img.writeText(Box(row, row + Position(ImageBuffer::width, 0)),
+                  playerPointString, ImageBuffer::TextAlignment::center);
+    row += Position(0, 2);
+    img.writeText(Box(row, row + Position(ImageBuffer::width, 0)), mess,
+                  ImageBuffer::TextAlignment::center);
 }
