@@ -44,8 +44,8 @@ std::vector<std::vector<std::vector<std::string>>> Card::sprites =
          {"|", "_", "|"},
          {"|", " ", "|"}}};
 
-std::map<unsigned int, char32_t> i_to_symbol = {{0, u'♣'}, {1, u'♦'}, {2, u'♥'}, {3, u'♠'}};
-std::map<unsigned int, char> i_to_val = {
+std::map<unsigned int, char32_t> Card::i_to_symbol = {{0, u'♣'}, {1, u'♦'}, {2, u'♥'}, {3, u'♠'}};
+std::map<unsigned int, char> Card::i_to_val = {
     {2, '2'},
     {3, '3'},
     {4, '4'},

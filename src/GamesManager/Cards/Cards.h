@@ -15,7 +15,6 @@ private:
     static Color red;
     static Color black;
     static Color gray;
-    static std::vector<std::vector<std::vector<std::string>>> sprites;
     Color &getColor();
     void draw_frame(ImageBuffer &img, Position pos);
 
