@@ -16,7 +16,6 @@ BlackJack::BlackJack(Player *player, unsigned int nOfStdDecks)
 void BlackJack::processDecision(unsigned int dec)
 {
     mainManager->removeUIController();
-    // returns true if next player
     switch (dec)
     {
     case 0: // hit
@@ -24,8 +23,6 @@ void BlackJack::processDecision(unsigned int dec)
         status = Status::animationSlideIn;
         break;
     case 1: // Stand
-        // img_bck = ImageBuffer();
-        // img = ImageBuffer();
         counter = 0;
         status = Status::dealerHand;
         dealer.hand.addCard(deck.getCard());
@@ -58,6 +55,7 @@ void BlackJack::processMainMenu(unsigned int dec)
 void BlackJack::processBet(std::string bet)
 {
     mainManager->removeUIController();
+
     int bet_int = std::stoi(bet);
 
     if (bet_int > player.player->cash)

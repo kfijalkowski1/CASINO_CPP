@@ -2,25 +2,49 @@
 #include <map>
 #include <algorithm>
 #include <experimental/random>
+std::vector<std::vector<std::vector<std::string>>> Card::sprites =
+    {
+        {{"/", "^", ")"}, // 2
+         {" ", "/", " "},
+         {"L", "_", "_"}},
+        {{"-", "-", "#"}, // 3
+         {" ", "-", "#"},
+         {"_", "_", "#"}},
+        {{"/", " ", " "}, // 4
+         {"L", "_", "|"},
+         {" ", " ", "|"}},
+        {{"/", "~", "~"}, // 5
+         {"L", "-", "\\"},
+         {"_", "_", "/"}},
+        {{"/", "~", "~"}, // 6
+         {"L", "-", "\\"},
+         {"L", "_", "/"}},
+        {{"-", "-", "-"}, // 7
+         {" ", "/", " "},
+         {"/", " ", " "}},
+        {{"/", "-", "\\"}, // 8
+         {"|", "-", "|"},
+         {"\\", "_", "/"}},
+        {{"/", "-", "\\"}, // 9
+         {"\\", "-", "|"},
+         {"_", "_", "/"}},
+        {{"|", "[", "]"}, // 10
+         {"|", "|", "|"},
+         {"|", "[", "]"}},
+        {{" ", "-", "|"}, // J
+         {" ", " ", "|"},
+         {"-", "_", "/"}},
+        {{"/", "^", "\\"}, // Q
+         {"|", " ", "|"},
+         {"\\", "_", "%"}},
+        {{"|", " ", "/"}, // K
+         {"|", "/", " "},
+         {"|", " ", "\\"}},
+        {{"/", "^", "\\"}, // A
+         {"|", "_", "|"},
+         {"|", " ", "|"}}};
 
-std::map<std::string, unsigned int> suit_to_i = {{"Clubs", 0}, {"Diamonds", 1}, {"Hearts", 2}, {"Spades", 3}};
-std::map<unsigned int, std::string> i_to_suit = {{0, "Clubs"}, {1, "Diamonds"}, {2, "Hearts"}, {3, "Spades"}};
 std::map<unsigned int, char32_t> i_to_symbol = {{0, u'♣'}, {1, u'♦'}, {2, u'♥'}, {3, u'♠'}};
-// std::map<unsigned int, char> i_to_symbol = {{0, '!'}, {1, '@'}, {2, '#'}, {3, '$'}};
-std::map<char, unsigned int> val_to_i = {
-    {'2', 2},
-    {'3', 3},
-    {'4', 4},
-    {'5', 5},
-    {'6', 6},
-    {'7', 7},
-    {'8', 8},
-    {'9', 9},
-    {'1', 10},
-    {'J', 11},
-    {'Q', 12},
-    {'K', 13},
-    {'A', 14}};
 std::map<unsigned int, char> i_to_val = {
     {2, '2'},
     {3, '3'},
@@ -44,32 +68,10 @@ Card::Card(unsigned int number, unsigned int suit)
     this->number = number;
     this->suit = suit;
 }
-Card::Card(char number, std::string suit)
-{
-
-    this->number = val_to_i[number];
-    this->suit = suit_to_i[suit];
-}
 
 unsigned int Card::getNumber() const
 {
     return number;
-}
-char Card::getNumber_str() const
-{
-    return i_to_val[number];
-}
-unsigned int Card::getSuit() const
-{
-    return suit;
-}
-std::string Card::getSuit_str() const
-{
-    return i_to_suit[suit];
-}
-std::string Card::to_string() const
-{
-    return (i_to_val[number] + i_to_suit[suit]);
 }
 
 Deck::Deck()
@@ -180,45 +182,3 @@ Color &Card::getColor()
     else
         return Card::red;
 }
-
-std::vector<std::vector<std::vector<std::string>>> Card::sprites =
-    {
-        {{"/", "^", ")"}, // 2
-         {" ", "/", " "},
-         {"L", "_", "_"}},
-        {{"-", "-", "#"}, // 3
-         {" ", "-", "#"},
-         {"_", "_", "#"}},
-        {{"/", " ", " "}, // 4
-         {"L", "_", "|"},
-         {" ", " ", "|"}},
-        {{"/", "~", "~"}, // 5
-         {"L", "-", "\\"},
-         {"_", "_", "/"}},
-        {{"/", "~", "~"}, // 6
-         {"L", "-", "\\"},
-         {"L", "_", "/"}},
-        {{"-", "-", "-"}, // 7
-         {" ", "/", " "},
-         {"/", " ", " "}},
-        {{"/", "-", "\\"}, // 8
-         {"|", "-", "|"},
-         {"\\", "_", "/"}},
-        {{"/", "-", "\\"}, // 9
-         {"\\", "-", "|"},
-         {"_", "_", "/"}},
-        {{"|", "[", "]"}, // 10
-         {"|", "|", "|"},
-         {"|", "[", "]"}},
-        {{" ", "-", "|"}, // J
-         {" ", " ", "|"},
-         {"-", "_", "/"}},
-        {{"/", "^", "\\"}, // Q
-         {"|", " ", "|"},
-         {"\\", "_", "%"}},
-        {{"|", " ", "/"}, // K
-         {"|", "/", " "},
-         {"|", " ", "\\"}},
-        {{"/", "^", "\\"}, // A
-         {"|", "_", "|"},
-         {"|", " ", "|"}}};
