@@ -13,11 +13,9 @@ void SelectionMenu::initBuffer(std::u32string &header)
 {
     mainBuffer = mainManager->graphicsManager.currentBuffer;
 
-    int width = space.bottomRight.x - space.topLeft.x;
-    int height = space.bottomRight.y - space.topLeft.y;
-
     int topPadding =
-        (height - (options.size() + (header.length() > 0) ? 2 : 0)) / 2;
+        (space.height() - (options.size() + ((header.length() > 0) ? 2 : 0))) /
+        2;
     Box line = space;
     line.topLeft.y += topPadding;
     line.bottomRight.y = line.topLeft.y + 1;
@@ -44,7 +42,7 @@ void SelectionMenu::drawSelection()
     Position pos = optionPositions[selection];
     buffer.drawBoxBackground(
         Box(pos, pos + Position(options[selection].length(), 1)),
-        Color::Intensive(7));
+        Color::RGB(0, 3, 4));
     buffer.drawBoxColor(
         Box(pos, pos + Position(options[selection].length(), 1)),
         Color::Standard(0));

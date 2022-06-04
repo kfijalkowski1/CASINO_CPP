@@ -10,4 +10,7 @@ class Box
 
     Box operator+(const Position &that) const;
     Box &operator+=(const Position &that);
+
+    unsigned int width();
+    unsigned int height();
 };

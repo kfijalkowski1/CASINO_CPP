@@ -16,3 +16,6 @@ Box &Box::operator+=(const Position &that)
     bottomRight += that;
     return *this;
 }
+
+unsigned int Box::width() { return bottomRight.x - topLeft.x; }
+unsigned int Box::height() { return bottomRight.y - topLeft.y; }

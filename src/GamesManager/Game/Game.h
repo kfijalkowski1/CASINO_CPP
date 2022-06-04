@@ -18,9 +18,6 @@ class Game : public UIController
 {
   public:
     // AllManager pointer?
-    std::string name;
-    Rules rules;
-    std::vector<Score> Score_cashe;
-
-    // virtual void draw(ImageBuffer &img, Position pos) = 0;
+    static std::string name;
+    static Rules rules;
 };

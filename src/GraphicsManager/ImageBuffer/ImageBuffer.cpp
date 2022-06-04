@@ -64,8 +64,7 @@ void ImageBuffer::writeText(Position pos, std::u32string text)
 Position ImageBuffer::writeText(Box space, std::u32string text,
                                 TextAlignment align)
 {
-    int width = space.bottomRight.x - space.topLeft.x;
-    int freeSpace = width - text.length();
+    int freeSpace = space.width() - text.length();
 
     Position textPos(space.topLeft);
     switch (align)

@@ -12,10 +12,8 @@ void TextInputMenu::initBuffer(std::u32string &header)
 {
     mainBuffer = mainManager->graphicsManager.currentBuffer;
 
-    int width = space.bottomRight.x - space.topLeft.x;
-    int height = space.bottomRight.y - space.topLeft.y;
-
-    int topPadding = (height - (1 + (header.length() > 0) ? 2 : 0)) / 2;
+    int topPadding =
+        (space.height() - (1 + ((header.length() > 0) ? 2 : 0))) / 2;
     Box line = space;
     line.topLeft.y += topPadding;
     line.bottomRight.y = line.topLeft.y + 1;

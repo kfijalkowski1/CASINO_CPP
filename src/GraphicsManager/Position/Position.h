@@ -8,4 +8,6 @@ class Position
 
     Position operator+(const Position &that) const;
     Position &operator+=(const Position &that);
+
+    bool operator==(const Position &that) const;
 };

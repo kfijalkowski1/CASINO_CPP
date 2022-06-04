@@ -1,5 +1,6 @@
 #include "GamesManager/BlackJack/BlackJack.h"
 #include "GamesManager/Craps/Craps.h"
+#include "GamesManager/Snake/Snake.h"
 #include "MainManager/MainManager.h"
 #include "MenuManger.h"
 #include "UIController/SelectionMenu/SelectionMenu.h"
@@ -28,7 +29,7 @@ void MenuManager::callbackTitleMenu(int sel)
 void MenuManager::createLoginMenu()
 {
     ImageBuffer buffer;
-    buffer.writeText(Position(10, ImageBuffer::height / 2 + 1), "Login:");
+    buffer.writeText(Position(10, ImageBuffer::height / 2), "Login:");
 
     mainManager->graphicsManager.show(buffer);
 
@@ -75,7 +76,7 @@ void MenuManager::createGameMenu()
     mainManager->addUIController(new SelectionMenu(
         std::bind(&MenuManager::callbackGameMenu, this, std::placeholders::_1),
         Box(0, 0, ImageBuffer::width, ImageBuffer::height),
-        {U"Black Jack", U"Craps", U"<- Back"}, U"Casino.o"));
+        {U"Black Jack", U"Craps", U"Snake", U"<- Back"}, U"Casino.o"));
 }
 void MenuManager::callbackGameMenu(int sel)
 {
@@ -89,6 +90,9 @@ void MenuManager::callbackGameMenu(int sel)
         mainManager->addUIController(new Craps(mainManager->currentPlayer));
         break;
     case 2:
+        mainManager->addUIController(new Snake(mainManager->currentPlayer));
+        break;
+    case 3:
         mainManager->removeUIController();
         break;
     }
