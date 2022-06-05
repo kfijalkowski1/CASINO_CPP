@@ -6,21 +6,27 @@ Color RainbowGenerator::nextColor()
     switch (stage)
     {
     case 0:
-        red--;
-        green++;
-        if (red == 0)
+        if (++green == 5)
             stage++;
         break;
     case 1:
-        green--;
-        blue++;
-        if (green == 0)
+        if (--red == 0)
             stage++;
         break;
     case 2:
-        blue--;
-        red++;
-        if (blue == 0)
+        if (++blue == 5)
+            stage++;
+        break;
+    case 3:
+        if (--green == 0)
+            stage++;
+        break;
+    case 4:
+        if (++red == 5)
+            stage++;
+        break;
+    case 5:
+        if (--blue == 0)
             stage = 0;
         break;
     }
